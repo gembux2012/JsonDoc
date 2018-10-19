@@ -1,0 +1,13 @@
+{% extends "Index.html" %}
+
+{% block content  %}
+<form>
+    <div class="form-group">
+
+        <p><textarea rows="10" id=2 cols="45" name="text">{{JsonDoc}}</textarea></p>
+    </div>
+
+    <button type="button" id='create' class="btn btn-default">Создать документ</button>
+    <button type="button" id='save' class="btn btn-default">Сохранить документ</button>
+</form>
+{% endblock %}

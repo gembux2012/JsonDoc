@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Minimal web-application based on T4 framework</title>
+  {{ publishCss() }}
+
+</head>
+<body>
+{% block content %}{% endblock %}
+{{ publishJs() }}
+<script type="text/javascript">
+
+
+  $('#create').on('click', function () {
+    $.get('http://JsonDoc/Json/New.json', function (data) {
+
+
+      console.log(data);
+      $('textarea').val(JSON.stringify(data, "", 10))
+
+    });
+  });
+
+  $('#save').on('click', function () {
+    try {
+      var jdata = JSON.parse($('textarea').val())
+      $.post('http://JsonDoc/Json/Save?data=' + jdata), function (data) {
+        console.log(data);
+        $('textarea').val(JSON.stringify(data, "", 10))
+      }
+    } catch (e) {
+      alert(e.message, e.name, e.lineNumber, e.columnNumber)
+    }
+    console.log(jdata)
+
+  })
+
+
+
+
+
+
+</script>
+</body>
+</html>
