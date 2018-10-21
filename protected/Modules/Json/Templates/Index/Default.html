@@ -1,13 +1,49 @@
 {% extends "Index.html" %}
 
 {% block content  %}
-<form>
-    <div class="form-group">
-
-        <p><textarea rows="10" id=2 cols="45" name="text">{{JsonDoc}}</textarea></p>
+<div class="container">
+    <div class="page-header">
+        <h1 class="text-center">JSON
+            <small>содаем и редактруем</small>
+        </h1>
     </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2">
+            <h5 class="text-center">Черновики</h5>
+            </div>
+        <div class="col-sm-4">
+            <h3 class="text-center">Документ</h3>
+            <form>
+                <div class="form-group">
 
-    <button type="button" id='create' class="btn btn-default">Создать документ</button>
-    <button type="button" id='save' class="btn btn-default">Сохранить документ</button>
-</form>
+                    <p class="text-right"><textarea rows="10" id='noedit' cols="45" name="text">{{JsonDoc}}</textarea></p>
+                </div>
+
+
+            </form>
+
+        </div>
+        <div class="col-sm-4">
+            <h3 class="text-center">Редактирование</h3>
+            <form>
+                <div class="form-group">
+
+                    <p class="text-left"><textarea rows="10" id='edit' cols="45" name="text">{{JsonDoc}}</textarea></p>
+                </div>
+
+
+            </form>
+        </div>
+        <div class="col-sm-2">
+            <h5 class="text-center">Опубликованые</h5>
+        </div>
+    </div>
+    <div class="text-center">
+        <button type="button" id='create' class="btn btn-default">Создать документ</button>
+        <button type="button" id='save' class="btn btn-default">Сохранить документ</button>
+        <button type="button" id='publish' class="btn btn-default">Опубликовать</button>
+    </div>
+</div>
 {% endblock %}

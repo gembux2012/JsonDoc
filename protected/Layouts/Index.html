@@ -13,26 +13,35 @@
 
 
   $('#create').on('click', function () {
+    var tmp={payload:[]};
     $.get('http://JsonDoc/Json/New.json', function (data) {
+     tmp.payload=data.JsonDoc.payload;
 
 
-      console.log(data);
-      $('textarea').val(JSON.stringify(data, "", 10))
+      $('#noedit').val(JSON.stringify(data.JsonDoc, "", 10))
+      $('#edit').val(JSON.stringify(tmp, "", 10))
 
     });
   });
 
   $('#save').on('click', function () {
     try {
-      var jdata = JSON.parse($('textarea').val())
-      $.post('http://JsonDoc/Json/Save?data=' + jdata), function (data) {
-        console.log(data);
-        $('textarea').val(JSON.stringify(data, "", 10))
+     edit=JSON.parse($('#edit').val())
+     noedit=JSON.parse($('#noedit').val())
+      noedit.JsonDoc.payload=edit.payload;
+      $.post('http://jsondoc/Json/Save.json',{data:JSON.stringify(noedit)}), function (data) {
+        $('#noedit').val(JSON.stringify(data, "", 10))
+
       }
+
+    //  $('#noedit').val(JSON.stringify(noedit,"",10));
+       //$.post('http://JsonDoc/Json/Save',{data:$('#noedit').val()}), function (data) {
+      //$('textarea').val(JSON.stringify(data, "", 10))
+     // }
     } catch (e) {
       alert(e.message, e.name, e.lineNumber, e.columnNumber)
     }
-    console.log(jdata)
+
 
   })
 

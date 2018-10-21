@@ -17,11 +17,12 @@ class Index
     public function actionDefault(){}
 
     public function actionNew(){
-       $this->data->JsonDoc=Json::NewDoc();  }
+       $this->data->JsonDoc=Json::getContent('new');  }
 
-    public function actionSave($data){
+    public function actionSave(){
+        $data=$this->app->request->post->data;
+        $this->data->JsonDoc=$data;
         Json::SaveFile($data);
-        $this->data->JsonDoc=json_decode($data);
 
     }
 }
