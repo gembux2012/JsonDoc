@@ -22,15 +22,15 @@ class Json
     ]];
 
     static private function NewDoc(){
-        self::$shema['id']=self::getGUID();
-        self::$shema['createAt']=date("Y-m-d H:i:s");
+        self::$shema['document']['id']=self::getGUID();
+        self::$shema['document']['createAt']=date("Y-m-d H:i:s");
 
         return self::$shema;
     }
 
     static public function SaveFile($data){
 
-        $path=Helpers::getRealPath('/jsondoc/1.json');
+        $path=Helpers::getRealPath('/jsondoc/'.json_encode($data).['data']['document']['id']).'.json';
         try {
             file_put_contents($path, $data);
         } catch(Exception $e){

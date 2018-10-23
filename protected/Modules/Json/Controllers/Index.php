@@ -22,7 +22,7 @@ class Index
     public function actionSave(){
         $data=$this->app->request->post->data;
         $this->data->JsonDoc=$data;
-        Json::SaveFile($data);
+        //Json::SaveFile($data);
 
     }
 }
