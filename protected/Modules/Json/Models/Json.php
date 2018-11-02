@@ -9,6 +9,27 @@
 namespace App\Modules\Json\Models;
 use T4\Fs\Helpers;
 
+
+use  T4\Orm\Model;
+
+class User
+    extends Model
+{
+    static protected $schema = [
+        'table' => 'users',
+        'columns' => [
+            'name' => ['type' => 'string'],
+            'id-doc' => ['type' => 'string'],
+            'name' => ['type' => 'string'],
+            'question' => ['type' => 'text'],
+            'a_datetime' => ['type' => 'datetime'],
+            'answer' => ['type' => 'text'],
+        ],
+        'relations' => [
+            'user' => ['type' => self::BELONGS_TO, 'model' => User::class]
+        ]
+    ];
+}
 class Json
 {
     static protected $shema = ['document' => [
@@ -30,9 +51,9 @@ class Json
 
     static public function SaveFile($data){
 
-        $path=Helpers::getRealPath('/jsondoc/'.json_encode($data).['data']['document']['id']).'.json';
+        $path=Helpers::getRealPath('/jsondoc/').$data['document']['id'].'.json';
         try {
-            file_put_contents($path, $data);
+            file_put_contents($path, json_encode($data));
         } catch(Exception $e){
             $e;
             echo '';
@@ -56,13 +77,13 @@ class Json
             mt_srand((double)microtime()*10000);//optional for php 4.2.0 and up.
             $charid = strtoupper(md5(uniqid(rand(), true)));
             $hyphen = chr(45);// "-"
-            $uuid = chr(123)// "{"
-                .substr($charid, 0, 8).$hyphen
+            $uuid = //chr(123)// "{"
+                substr($charid, 0, 8).$hyphen
                 .substr($charid, 8, 4).$hyphen
                 .substr($charid,12, 4).$hyphen
                 .substr($charid,16, 4).$hyphen
-                .substr($charid,20,12)
-                .chr(125);// "}"
+                .substr($charid,20,12);
+                //.chr(125);// "}"
             return $uuid;
 
     }
@@ -70,3 +91,47 @@ class Json
 
 
 }
+/*SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`users` (
+  `` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (``),
+  UNIQUE INDEX `_UNIQUE` (`` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci
+PACK_KEYS = DEFAULT;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`docs`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`docs` (
+  `` INT NOT NULL AUTO_INCREMENT,
+  `id_user` INT NULL,
+  `unidock` VARCHAR(45) NULL,
+  `path` VARCHAR(45) NULL,
+  PRIMARY KEY (``),
+  UNIQUE INDEX `_UNIQUE` (`` ASC),
+  INDEX `fk_docs_1_idx` (`id_user` ASC),
+  CONSTRAINT `user`
+    FOREIGN KEY (`id_user`)
+    REFERENCES `mydb`.`users` (``)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
