@@ -7,30 +7,15 @@
  */
 
 namespace App\Modules\Json\Models;
+use T4\Console\Application;
 use T4\Fs\Helpers;
 
 
-use  T4\Orm\Model;
+use  T4\Dbal\Connection;
 
-class User
-    extends Model
-{
-    static protected $schema = [
-        'table' => 'users',
-        'columns' => [
-            'name' => ['type' => 'string'],
-            'id-doc' => ['type' => 'string'],
-            'name' => ['type' => 'string'],
-            'question' => ['type' => 'text'],
-            'a_datetime' => ['type' => 'datetime'],
-            'answer' => ['type' => 'text'],
-        ],
-        'relations' => [
-            'user' => ['type' => self::BELONGS_TO, 'model' => User::class]
-        ]
-    ];
-}
+
 class Json
+
 {
     static protected $shema = ['document' => [
         'id' => '',
@@ -42,7 +27,25 @@ class Json
         'modifyAt' => ''
     ]];
 
-    static private function NewDoc(){
+
+
+  public function init(){
+
+    $conection=new Connection();
+    $conection->execute('CREATE TABLE IF NOT EXISTS `mydb`.`users` (
+  `` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (``),
+  UNIQUE INDEX `_UNIQUE` (`` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci
+PACK_KEYS = DEFAULT;');
+  }
+
+ private function NewDoc(){
+
+
         self::$shema['document']['id']=self::getGUID();
         self::$shema['document']['createAt']=date("Y-m-d H:i:s");
 
