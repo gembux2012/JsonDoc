@@ -31,11 +31,11 @@ class Index
            */
             $file = file_get_contents(Helpers::getRealPath('/jsondoc/document-list-response.json'));
             $taskList=json_decode($file,TRUE);
-            $file['propertis']['pagination']['propertis']['page']['type']=1;
-            $file['propertis']['pagination']['propertis']['perPage']['type']=1;
-            $file['propertis']['pagination']['propertis']['total']['type']=10;
-            $this->data->items=$file;
-            var_dump($file);
+            $taskList['pagination']["required"][0]['page']=1;
+            $taskList['pagination']["required"][0]['perPage']=1;
+            $taskList['pagination']["required"][0]['total']=5;
+            $this->data->items=$taskList;
+
 
         }
 

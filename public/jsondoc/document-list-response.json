@@ -15,9 +15,11 @@
         "pagination": {
             "type": "object",
             "required": [
-                "page",
-                "perPage",
-                "total"
+                {
+                    "page": 0,
+                    "perPage": 0,
+                    "total": 0
+                }
             ],
             "properties": {
                 "page": {

@@ -4,46 +4,52 @@
   <meta charset="UTF-8">
   <title>Minimal web-application based on T4 framework</title>
   {{ publishCss() }}
+    <link href="{{ asset('/Layouts/simplePagination.css') }}" rel="stylesheet">
 
 </head>
 <body>
 {% block content %}{% endblock %}
+
 {{ publishJs() }}
+<script src="{{ asset('/Layouts/jquery.simplePagination.js')}}"></script>
 <script type="text/javascript">
+    $(function() {
+
+        {% block skript1 %}{% endblock %}
+
+        $('#create').on('click', function () {
+            var tmp = {payload: []};
+            $.get('http://JsonDoc/Json/New.json', function (data) {
+                tmp.payload = data.JsonDoc.document.payload;
 
 
-  $('#create').on('click', function () {
-    var tmp={payload:[]};
-    $.get('http://JsonDoc/Json/New.json', function (data) {
-     tmp.payload=data.JsonDoc.document.payload;
+                $('#noedit').val(JSON.stringify(data.JsonDoc, "", 10))
+                $('#edit').val(JSON.stringify(tmp, "", 10))
+
+            });
+        });
+
+        $('#save').on('click', function () {
+            try {
+                edit = JSON.parse($('#edit').val())
+                noedit = JSON.parse($('#noedit').val())
+                noedit.document.payload = edit.payload;
+                $.post('http://jsondoc/Json/Save.json', {data: JSON.stringify(noedit)}), function (data) {
+                    $('#noedit').val(JSON.stringify(data.JsonDoc, "", 10))
+
+                }
+
+                //  $('#noedit').val(JSON.stringify(noedit,"",10));
+                //$.post('http://JsonDoc/Json/Save',{data:$('#noedit').val()}), function (data) {
+                //$('textarea').val(JSON.stringify(data, "", 10))
+                // }
+            } catch (e) {
+                alert(e.message, e.name, e.lineNumber, e.columnNumber)
+            }
 
 
-      $('#noedit').val(JSON.stringify(data.JsonDoc, "", 10))
-      $('#edit').val(JSON.stringify(tmp, "", 10))
-
-    });
-  });
-
-  $('#save').on('click', function () {
-    try {
-     edit=JSON.parse($('#edit').val())
-     noedit=JSON.parse($('#noedit').val())
-      noedit.document.payload=edit.payload;
-      $.post('http://jsondoc/Json/Save.json',{data:JSON.stringify(noedit)}), function (data) {
-        $('#noedit').val(JSON.stringify(data.JsonDoc, "", 10))
-
-      }
-
-    //  $('#noedit').val(JSON.stringify(noedit,"",10));
-       //$.post('http://JsonDoc/Json/Save',{data:$('#noedit').val()}), function (data) {
-      //$('textarea').val(JSON.stringify(data, "", 10))
-     // }
-    } catch (e) {
-      alert(e.message, e.name, e.lineNumber, e.columnNumber)
-    }
-
-
-  })
+        })
+    })
 
 
 

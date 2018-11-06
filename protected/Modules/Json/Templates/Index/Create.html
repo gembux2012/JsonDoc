@@ -26,19 +26,10 @@
         <hr>
 
     </div>
-    <div id="light-pagination" class="pagination"></div>
+    <div class="text-center">
 
-
-
+        <button type="button" id='save' class="btn btn-default">Сохранить документ</button>
+        <button type="button" id='publish' class="btn btn-default">Опубликовать</button>
+    </div>
 </div>
-{% endblock %}
-
-{% block skript1 %}
-$('#light-pagination').pagination({
-items: 100,
-itemsOnPage: 10,
-cssStyle: 'light-theme'
-});
-var dt;
-$.post('http://jsondoc/Json/.json?page=1'), function (data) {dt=data}
 {% endblock %}

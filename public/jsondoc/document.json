@@ -5,11 +5,13 @@
     "type": "object",
     "additionalProperties": false,
     "required": [
-        "id",
-        "status",
-        "payload",
-        "createAt",
-        "modifyAt"
+        {
+            "id": 0,
+            "status": "draft",
+            "payload": [],
+            "createAt": 0,
+            "modifyAt": 0
+        }
     ],
     "properties": {
         "id": {
