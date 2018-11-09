@@ -31,9 +31,9 @@ class Index
            */
             $file = file_get_contents(Helpers::getRealPath('/jsondoc/document-list-response.json'));
             $taskList=json_decode($file,TRUE);
-            $taskList['pagination']["required"][0]['page']=1;
-            $taskList['pagination']["required"][0]['perPage']=1;
-            $taskList['pagination']["required"][0]['total']=5;
+            $taskList["properties"]['pagination']["required"][0]['page']=1;
+            $taskList["properties"]['pagination']["required"][0]['perPage']=2;
+            $taskList["properties"]['pagination']["required"][0]['total']=10;
             $this->data->items=$taskList;
 
 

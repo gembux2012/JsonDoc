@@ -34,11 +34,31 @@
 {% endblock %}
 
 {% block skript1 %}
-$('#light-pagination').pagination({
-items: 100,
-itemsOnPage: 10,
-cssStyle: 'light-theme'
-});
-var dt;
-$.post('http://jsondoc/Json/.json?page=1'), function (data) {dt=data}
+
+!--<script type="text/javascript"> -->
+
+request(1)
+
+
+
+function request(page) {
+
+$.when( $.ajax('http://jsondoc/Json/.json?page=' + page) ).then(function(result){
+console.log(JSON.stringify(result));
+console.log(result)
+
+//paginator('updateItems',result.items.properties.pagination.required[0].total)
+//paginator.itemsOnPage=result.items.properties.pagination.required[0].perPage
+    $('#light-pagination').pagination({
+        items: result.items.properties.pagination.required[0].total,
+        itemsOnPage: result.items.properties.pagination.required[0].perPage,
+        cssStyle: 'light-theme'
+    });
+
+    });
+
+}
+
+
+
 {% endblock %}
