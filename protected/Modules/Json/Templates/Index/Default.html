@@ -8,25 +8,17 @@
         </h1>
     </div>
 </div>
-<div class="container">
-    <div class="row">
-
-
+<div id="body" class="container">
+    <div class="row " id="text">
         <div class="text-center">
-
-            <form>
-                <div class="form-group">
-
-                    <p class="text-center"><textarea rows="10" id='edit' cols="45" name="text">{{JsonDoc}}</textarea></p>
-                </div>
-                <button type="button" id='editbutton' class="btn btn-small">Редактировать</button>
-
-            </form>
+            <p class="text-center"><textarea rows="10" id='edit' cols="45" name="text">{{JsonDoc}}</textarea></p>
+            <button type="button" id='editbutton' class="btn btn-small">Редактировать</button>
         </div>
         <hr>
-
     </div>
-    <div id="light-pagination" class="pagination"></div>
+
+</div>
+<div id="light-pagination" class="pagination"></div>
 
 
 
@@ -35,25 +27,31 @@
 
 {% block skript1 %}
 
-!--<script type="text/javascript"> -->
+<!--<script type="text/javascript"> -->
+
+$('#body').append(' <div class="row " id="text">'+
+        '<div class="text-center">'+
+        '<p class="text-center"><textarea rows="10" id="edit" cols="45" name="text"></textarea></p>'+
+'<button type="button" id="editbutton" class="btn btn-small">Редактировать</button>'+
+        '</div><hr></div>')
+
+$('#light-pagination').pagination({
+
+    cssStyle: 'light-theme'
+});
+
 
 request(1)
 
 
-
 function request(page) {
 
-$.when( $.ajax('http://jsondoc/Json/.json?page=' + page) ).then(function(result){
-console.log(JSON.stringify(result));
-console.log(result)
+    $.when($.ajax('http://jsondoc/Json/.json?page=' + page)).then(function (result) {
+        console.log(JSON.stringify(result));
+        console.log(result)
 
-//paginator('updateItems',result.items.properties.pagination.required[0].total)
-//paginator.itemsOnPage=result.items.properties.pagination.required[0].perPage
-    $('#light-pagination').pagination({
-        items: result.items.properties.pagination.required[0].total,
-        itemsOnPage: result.items.properties.pagination.required[0].perPage,
-        cssStyle: 'light-theme'
-    });
+        $('#light-pagination').pagination('updateItems', result.items.properties.pagination.required[0].total)
+        $('#light-pagination').pagination('updateItemsOnPage', result.items.properties.pagination.required[0].perPage);
 
     });
 

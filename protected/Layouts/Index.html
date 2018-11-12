@@ -8,6 +8,61 @@
 
 </head>
 <body>
+<nav class="navbar navbar-fixed-top">
+    <div class="container">
+        <ul class="nav navbar-right navbar-nav">
+            {% if not app.user %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Войти на сайт </a>
+
+                <ul class="dropdown-menu">
+                    <h3 class="text-center" style="color: black">Вход на сайт</h3>
+                    <section></section>
+                    <form role="form" id="login" action="/user/login.html" method="post" style="padding: 15px">
+                        <div class="form-group">
+                            <p id="validemail" style="color: #9b0000"></p>
+                            <div class="input-group">
+
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                <input type="text" placeholder="E-mail" class="form-control input-sm"
+                                       name="login[email]" id="loginemail">
+                            </div>
+                            <br>
+
+                            <p id="validpassword" style="color: #9b0000"></p>
+                            <div class="input-group">
+
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input type="password"  id="loginpassword" placeholder="Пароль" class="form-control input-sm"
+                                       name="login[password]">
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-theme-bg pull-right"
+                                        style="background-color: #77CCDD"><i class="glyphicon glyphicon-share"></i>
+                                    Войти
+                                </button>
+                            </div>
+                            <a href="#myModal" role="button" data-toggle="modal" style="color: #9b0000; background-color: inherit">Забыли пароль?</a>
+
+                            <div class="clearfix"></div>
+                            <hr>
+
+
+                        </div>
+                    </form>
+                </ul>
+
+            </li>
+            {% else %}
+            <li><a href="/user/logout" data-toggle="tooltip" title="Выход">Вы вошли как: {{ name }} &nbsp;&nbsp;<span
+                    class="glyphicon glyphicon-log-out"></span></a>
+                {% endif %}
+            </li>
+            </ul>
+        </div>
+    </nav>
 {% block content %}{% endblock %}
 
 {{ publishJs() }}

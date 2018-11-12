@@ -29,19 +29,7 @@ class Json
 
 
 
-  public function init(){
 
-    $conection=new Connection();
-    $conection->execute('CREATE TABLE IF NOT EXISTS `mydb`.`users` (
-  `` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  PRIMARY KEY (``),
-  UNIQUE INDEX `_UNIQUE` (`` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci
-PACK_KEYS = DEFAULT;');
-  }
 
  private function NewDoc(){
 
