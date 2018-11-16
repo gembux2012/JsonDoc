@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Json\Models;
+namespace App\Models;
 
 use T4\Orm\Model;
 

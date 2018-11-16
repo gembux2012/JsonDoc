@@ -8,62 +8,40 @@
 
 </head>
 <body>
-<nav class="navbar navbar-fixed-top">
-    <div class="container">
-        <ul class="nav navbar-right navbar-nav">
-            {% if not app.user %}
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Войти на сайт </a>
-
-                <ul class="dropdown-menu">
-                    <h3 class="text-center" style="color: black">Вход на сайт</h3>
-                    <section></section>
-                    <form role="form" id="login" action="/user/login.html" method="post" style="padding: 15px">
-                        <div class="form-group">
-                            <p id="validemail" style="color: #9b0000"></p>
-                            <div class="input-group">
-
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                <input type="text" placeholder="E-mail" class="form-control input-sm"
-                                       name="login[email]" id="loginemail">
-                            </div>
-                            <br>
-
-                            <p id="validpassword" style="color: #9b0000"></p>
-                            <div class="input-group">
-
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <input type="password"  id="loginpassword" placeholder="Пароль" class="form-control input-sm"
-                                       name="login[password]">
-                            </div>
-                            <br>
-
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-theme-bg pull-right"
-                                        style="background-color: #77CCDD"><i class="glyphicon glyphicon-share"></i>
-                                    Войти
-                                </button>
-                            </div>
-                            <a href="#myModal" role="button" data-toggle="modal" style="color: #9b0000; background-color: inherit">Забыли пароль?</a>
-
-                            <div class="clearfix"></div>
-                            <hr>
 
 
-                        </div>
-                    </form>
-                </ul>
-
-            </li>
-            {% else %}
-            <li><a href="/user/logout" data-toggle="tooltip" title="Выход">Вы вошли как: {{ name }} &nbsp;&nbsp;<span
-                    class="glyphicon glyphicon-log-out"></span></a>
-                {% endif %}
-            </li>
+    <nav class="navbar navbar-fixed-top">
+        <div class="container">
+            <ul class="nav  navbar-nav">
+            <li>
+                <a class="nav-link" href="#">Создать новый документ<span class="sr-only">(current)</span></a>
+                </li>
             </ul>
+            <ul id="userlogin" class="nav navbar-right navbar-nav">
+
+            </ul>
+
         </div>
     </nav>
-{% block content %}{% endblock %}
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="text-center">JSON
+                <small>список документов</small>
+            </h1>
+        </div>
+    </div>
+
+
+
+
+    <div class="container ">
+        <div id="light-pagination" class="pagination "></div>
+    </div>
+
+
+
+
 
 {{ publishJs() }}
 <script src="{{ asset('/Layouts/jquery.simplePagination.js')}}"></script>
@@ -73,38 +51,64 @@
 
         {% block skript1 %}{% endblock %}
 
-        $('#create').on('click', function () {
-            var tmp = {payload: []};
-            $.get('http://JsonDoc/Json/New.json', function (data) {
-                tmp.payload = data.JsonDoc.document.payload;
+        $('#light-pagination').pagination({
 
-
-                $('#noedit').val(JSON.stringify(data.JsonDoc, "", 10))
-                $('#edit').val(JSON.stringify(tmp, "", 10))
-
-            });
+            cssStyle: 'light-theme'
         });
 
-        $('#save').on('click', function () {
-            try {
-                edit = JSON.parse($('#edit').val())
-                noedit = JSON.parse($('#noedit').val())
-                noedit.document.payload = edit.payload;
-                $.post('http://jsondoc/Json/Save.json', {data: JSON.stringify(noedit)}), function (data) {
-                    $('#noedit').val(JSON.stringify(data.JsonDoc, "", 10))
 
-                }
+        request('http://jsondoc/.json?page=1','get',null);
 
-                //  $('#noedit').val(JSON.stringify(noedit,"",10));
-                //$.post('http://JsonDoc/Json/Save',{data:$('#noedit').val()}), function (data) {
-                //$('textarea').val(JSON.stringify(data, "", 10))
-                // }
-            } catch (e) {
-                alert(e.message, e.name, e.lineNumber, e.columnNumber)
+        function request(url, type, data) {
+            $.when($.ajax({
+                url: url,
+                type: type,
+                data: data
+
+            }).then(function (result) {
+                refreshpage(result)
+        }))}
+
+        function refreshpage(result)
+        {
+            if (!result.items.properties.user) {
+                $('#userlogin').html('   <li class="dropdown">' +
+                        '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Вход </a>' +
+                        '<ul class="dropdown-menu">' +
+                        '<h3 class="text-center" style="color: black"></h3>' +
+                        '<form role="form" id="loginajax" action="/user/login.html" method="post" style="padding: 15px">' +
+                        '<div class="form-group">' +
+                        '<p id="validlogin" style="color: #9b0000"></p>' +
+                        '<div class="input-group">' +
+                        '<span class="input-group-addon"><i class="glyphicon glyphicon-login"></i></span>' +
+                        '<input type="text" placeholder="login" class="form-control input-sm" name="login[email]" id="login"></div><br>' +
+
+                        '<div class="form-group">' +
+                        '<button type="submit" class="btn btn-theme-bg pull-right" style="background-color: #77CCDD">' +
+                        '<i class="glyphicon glyphicon-share"></i>Войти</button>' +
+                        '</div> <a href="#myModal" role="button" data-toggle="modal" style="color: #9b0000; background-color: inherit">Забыли пароль?</a>' +
+                        '<div class="clearfix"></div><hr></div></form></ul></li>');
+
+            } else {
+                $('#userlogin').html(
+                        '<li><a href="/user/logout" data-toggle="tooltip" title="Выход">Вы вошли как: '+result.items.properties.user+'  &nbsp;&nbsp;<span' +
+                        'class="glyphicon glyphicon-log-out"></span></a></li>')
+
             }
 
+            $('#light-pagination').pagination('updateItems', result.items.properties.pagination.required[0].total)
+            $('#light-pagination').pagination('updateItemsOnPage', result.items.properties.pagination.required[0].perPage);
+        }
+
+
+        $('#login').submit(function (e) {
+            var err=false;
+            e.preventDefault();
+
+            request('jsondoc/Login.json','post',$('#login').serializeArray());
 
         })
+
     })
 
 

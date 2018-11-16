@@ -15,6 +15,11 @@ class CreateTables extends Command
 name varchar(20) NOT NULL,
 PRIMARY KEY (__id))';
 
+        $session='CREATE TABLE IF NOT EXISTS  sessions (__id int (10) AUTO_INCREMENT,
+hash varchar(20) NOT NULL,
+userAgentHash varchar(20) NOT NULL,
+PRIMARY KEY (__id))';
+
         $documents='create table if not EXISTS documents (
 __id int (10) AUTO_INCREMENT,
 guid varchar(100) NOT NULL,
@@ -24,11 +29,14 @@ PRIMARY KEY (__id),
 FOREIGN KEY (__user_id) REFERENCES users (__id) ON DELETE CASCADE)';
 
         $this->app->db->default->execute($users);
+        $this->app->db->default->execute($session);
         $this->app->db->default->execute($documents);
 
-    $user=new User();
-        $user->name='root';
-            $user->save();
+     if(!User::findAllByName('name')) {
+         $user = new User();
+         $user->name = 'root';
+         $user->save();
+     }
 
     }
 
