@@ -7,8 +7,11 @@ return [
             'host' => 'localhost',
             'dbname' => 'standard',
             'user' => 'root',
-            'password' => '',
+            'password' => 'Password00',
         ],
+    ],
+    'auth' => [
+        'expire' => 1500 // 25 min
     ],
     'extensions' => [
         'jquery' => [

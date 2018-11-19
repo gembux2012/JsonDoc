@@ -22,7 +22,7 @@ class Index
         $requare["properties"]['pagination']["required"][0]['perPage']= self::PAGE_SIZE;
         $requare["properties"]['pagination']["required"][0]['total']=Document::countAll();
         $requare["properties"]['document']['items']['json'][]=Document::findAll([
-            'order' => 'published DESC',
+            //'order' => 'published DESC',
             'offset'=> ($page-1)*self::PAGE_SIZE,
             'limit'=> self::PAGE_SIZE]);
         $this->data->items=$requare;
@@ -35,9 +35,11 @@ class Index
                 $identity = new Identity();
                 $user = $identity->authenticate($login);
 
-            } catch (\App\Components\Auth\MultiException $e) {
+            } catch (\T4\Auth\Exception $e) {
 
-                $this->data->err=$e;
+                self::$user['err']=$e->getMessage();
+                $this->data->user=self::$user;
+
             }
 
         }

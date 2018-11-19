@@ -5,6 +5,8 @@ namespace App\Components\Auth;
 use App\Models\User;
 use App\Models\UserSession;
 use T4\Mvc\Application;
+use T4\Auth\Exception;
+use T4\Core\Session;
 
 
 class Identity
@@ -14,27 +16,25 @@ class Identity
     const  ERROR_INVALID_NAME = 105;
     const AUTH_COOKIE_NAME = 'T4auth';
 
-    public function authenticate($data)
+    public function authenticate($name)
     {
         $errors = new MultiException();
 
-        if (empty($data->name)) {
-            $errors->addException('Имя пользователя?', self::ERROR_INVALID_NAME);
-        }
-        if (!$errors->isEmpty())
-            throw $errors;
 
-        $user = User::findByName($data->name);
+        if (empty($name)) {
+            throw new Exception('Имя пользователя ?',  self::ERROR_INVALID_NAME);
+        }
+
+
+        $user = User::findByName($name);
         if (empty($user)) {
-            $errors->add('Нет такого пользовател  ' . $data->name . ' не существует', self::ERROR_INVALID_NAME);
+            throw new Exception('Нет такого пользовател ' . $name , self::ERROR_INVALID_NAME);
         }
 
-        if (!$errors->isEmpty())
-            throw $errors;
 
         $this->login($user);
-        Application::getInstance()->user = $user;
-        return $user;
+        Application::instance()->user = $user;
+         return $user;
     }
 
     public function getUser()
@@ -66,11 +66,11 @@ class Identity
      */
     public function login($user)
     {
-        $app = Application::getInstance();
+        $app = Application::Instance();
         $expire = isset($app->config->auth) && isset($app->config->auth->expire) ?
             time() + $app->config->auth->expire :
             0;
-        $hash = md5(time() . rand(9.9));
+        $hash = md5(time() . rand(9,9));
 
         \T4\Http\Helpers::setCookie(self::AUTH_COOKIE_NAME, $hash, $expire);
 
@@ -96,7 +96,7 @@ class Identity
         $session->delete();
         \T4\Http\Helpers::unsetCookie(self::AUTH_COOKIE_NAME);
 
-        $app = Application::getInstance();
+        $app = Application::Instance();
         $app->user = null;
     }
 
