@@ -5,26 +5,28 @@ namespace App\Components\Auth;
 use App\Models\User;
 use App\Models\UserSession;
 use T4\Mvc\Application;
-use T4\Core\Session;
-use T4\Core\MultiException;
+
 
 class Identity
     extends \T4\Auth\Identity
 {
 
     const  ERROR_INVALID_NAME = 105;
+    const AUTH_COOKIE_NAME = 'T4auth';
 
     public function authenticate($data)
     {
         $errors = new MultiException();
 
         if (empty($data->name)) {
-            $errors->add('Не введен e-mail', self::ERROR_INVALID_EMAIL);
+            $errors->addException('Имя пользователя?', self::ERROR_INVALID_NAME);
         }
+        if (!$errors->isEmpty())
+            throw $errors;
 
-        $user = User::findByEmail($data->email);
+        $user = User::findByName($data->name);
         if (empty($user)) {
-            $errors->add('Нет такого ользовател  ' . $data->email . ' не существует', self::ERROR_INVALID_EMAIL);
+            $errors->add('Нет такого пользовател  ' . $data->name . ' не существует', self::ERROR_INVALID_NAME);
         }
 
         if (!$errors->isEmpty())
@@ -68,7 +70,7 @@ class Identity
         $expire = isset($app->config->auth) && isset($app->config->auth->expire) ?
             time() + $app->config->auth->expire :
             0;
-        $hash = md5(time() . $user->password);
+        $hash = md5(time() . rand(9.9));
 
         \T4\Http\Helpers::setCookie(self::AUTH_COOKIE_NAME, $hash, $expire);
 

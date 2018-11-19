@@ -13,6 +13,7 @@ class Document
         'columns' => [
             'guid'     => ['type'=>'string'],
             'payload' => ['type' => 'json'],
+            'published' => ['type' => 'datetime'],
             '__user_id' => ['type' =>'relation']
 
         ],

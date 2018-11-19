@@ -3,9 +3,9 @@
 namespace App\Commands;
 
 
-use App\Modules\Json\Models\User;
+use App\Models\User;
 use T4\Console\Command;
-use App\Modules\Json\Models;
+
 
 class CreateTables extends Command
 {
@@ -24,6 +24,7 @@ PRIMARY KEY (__id))';
 __id int (10) AUTO_INCREMENT,
 guid varchar(100) NOT NULL,
 payload text ,
+published DATETIME  ,
 __user_id int (10) NOT NULL,
 PRIMARY KEY (__id),
 FOREIGN KEY (__user_id) REFERENCES users (__id) ON DELETE CASCADE)';
