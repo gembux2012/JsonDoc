@@ -8,36 +8,25 @@
 
 </head>
 <body>
-
-
-    <nav class="navbar navbar-fixed-top">
-        <div class="container">
-            <ul class="nav  navbar-nav">
-            <li>
-                <a class="nav-link" href="#">Создать новый документ<span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-            <ul id="userlogin" class="nav navbar-right navbar-nav">
-
-            </ul>
-
-        </div>
-    </nav>
-
+<nav class="navbar navbar-fixed-top">
     <div class="container">
-        <div class="page-header">
-            <h1 class="text-center">JSON
-                <small>список документов</small>
-            </h1>
-        </div>
+        <ul class="nav  navbar-nav">
+            <li>
+                <a  class="nav-link" href="//jsondoc" >На главную</a>
+            </li>
+            <li>
+                <a  class="nav-link" href="" onclick="return newdoc();">Создать новый документ</a>
+            </li>
+        </ul>
+        <ul id="userlogin" class="nav navbar-right navbar-nav">
+
+        </ul>
+
     </div>
+</nav>
 
-
-
-
-    <div class="container ">
-        <div id="light-pagination" class="pagination "></div>
-    </div>
+{% block content %}
+{% endblock %}
 
 
 
@@ -46,6 +35,8 @@
 {{ publishJs() }}
 <script src="{{ asset('/Layouts/jquery.simplePagination.js')}}"></script>
 <script type="text/javascript">
+
+    {% block functionjs %} {% endblock %}
 
     function call(){
         request('//jsondoc/Login.json','post',$('#call').serializeArray());
@@ -64,10 +55,11 @@
             if(result.user['err'])
               $('#validlogin').html(result.user['err'])
             else
-             refreshpage(result)
+             refreshmenu(result)
+            puginator(result)
         }))}
 
-    function refreshpage(result)
+    function refreshmenu(result)
     {
 
 
@@ -96,8 +88,6 @@
 
         }
 
-        $('#light-pagination').pagination('updateItems', result.items.properties.pagination.required[0].total)
-        $('#light-pagination').pagination('updateItemsOnPage', result.items.properties.pagination.required[0].perPage);
 
 
     }
@@ -106,12 +96,9 @@
 
     $(function() {
 
-        {% block skript1 %}{% endblock %}
+        {% block skript %}{% endblock %}
 
-        $('#light-pagination').pagination({
 
-            cssStyle: 'light-theme'
-        });
 
 
 

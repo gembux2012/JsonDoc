@@ -45,6 +45,13 @@ class Index
         }
     }
 
+    public function actionEdit(){
+
+    }
+
+    public function action403(){
+        $this->data->err='403';
+    }
 
 
 

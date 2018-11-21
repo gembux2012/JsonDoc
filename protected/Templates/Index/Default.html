@@ -1,6 +1,50 @@
 {% extends 'Index.html' %}
 
 {% block content %}
+<section>
+
+<div class="container">
+    <div class="page-header">
+        <h1 class="text-center">JSON
+            <small>список документов</small>
+        </h1>
+    </div>
+</div>
+
+
+
+
+<div class="container ">
+    <div id="light-pagination" class="pagination "></div>
+</div>
+</section>
+{% endblock %}
+
+{% block functionjs %}
+<!--<script type="text/javascript"> -->
+
+function newdoc(){
+    $('section').load('//jsondoc/Edit?id=new')
+    return false
+}
+function puginator(result) {
+    $('#light-pagination').pagination('updateItems', result.items.properties.pagination.required[0].total)
+    $('#light-pagination').pagination('updateItemsOnPage', result.items.properties.pagination.required[0].perPage);
+}
+{% endblock %}
+
+{% block skript %}
+<!--<script type="text/javascript"> -->
+
+    $('#light-pagination').pagination({
+
+        cssStyle: 'light-theme'
+    });
+
+    $('#new').on('click', function (e) {
+        $('#body').load('/jsondoc/edit?id=new')
+        e.preventDefault();
+    });
 
 
 {% endblock %}

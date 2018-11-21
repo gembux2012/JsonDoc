@@ -22,5 +22,9 @@ return [
             'location' => 'local',
             'theme' => '',
         ]
+    ],
+
+    'errors' => [
+    403 => '///403',
     ]
 ];

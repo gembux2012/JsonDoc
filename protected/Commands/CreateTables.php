@@ -16,8 +16,8 @@ name varchar(20) NOT NULL,
 PRIMARY KEY (__id))';
 
         $session='CREATE TABLE IF NOT EXISTS  sessions (__id int (10) AUTO_INCREMENT,
-hash varchar(20) NOT NULL,
-userAgentHash varchar(20) NOT NULL,
+hash varchar(32) NOT NULL,
+userAgentHash varchar(32) NOT NULL,
 __user_id int (10),
 PRIMARY KEY (__id))';
 

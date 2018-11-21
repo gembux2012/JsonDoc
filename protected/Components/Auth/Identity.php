@@ -70,7 +70,7 @@ class Identity
         $expire = isset($app->config->auth) && isset($app->config->auth->expire) ?
             time() + $app->config->auth->expire :
             0;
-        $hash = md5(time() . rand(9,9));
+        $hash = md5(time() . rand(5,5));
 
         \T4\Http\Helpers::setCookie(self::AUTH_COOKIE_NAME, $hash, $expire);
 
