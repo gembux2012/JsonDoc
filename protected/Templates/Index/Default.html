@@ -24,9 +24,15 @@
 <!--<script type="text/javascript"> -->
 
 function newdoc(){
-    $('section').load('//jsondoc/Edit?id=new')
+    $('section').load('//jsondoc/Edit?id=new',function(response, status, xhr){
+    if(status=='error'){
+        $('section').html(response)
+
+    }
+    })
     return false
 }
+
 function puginator(result) {
     $('#light-pagination').pagination('updateItems', result.items.properties.pagination.required[0].total)
     $('#light-pagination').pagination('updateItemsOnPage', result.items.properties.pagination.required[0].perPage);
@@ -41,10 +47,7 @@ function puginator(result) {
         cssStyle: 'light-theme'
     });
 
-    $('#new').on('click', function (e) {
-        $('#body').load('/jsondoc/edit?id=new')
-        e.preventDefault();
-    });
+
 
 
 {% endblock %}

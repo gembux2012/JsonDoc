@@ -45,9 +45,27 @@ class Index
         }
     }
 
-    public function actionEdit(){
+    public function actionEdit($id = null)
+    {
+        if (null === $id || 'new' == $id) {
+            $this->data->item = new Document();
+        } else {
+            $this->data->item = Document::findByPK($id);
+        }
+    }
+
+    public function actionSave()
+    {
+        if (!empty($this->app->request->post->id)) {
+            $item = Document::findByPK($this->app->request->post->id);
+        } else {
+            $item = new Document();
+        }
+        $item->fill($this->app->request->post);
+        $item->save();
 
     }
+
 
     public function action403(){
         $this->data->err='403';

@@ -1,6 +1,3 @@
-{% extends 'Index.html' %}
-{% block content %}
-
 <div class="container">
     <div class="page-header">
         <h1 class="text-center">JSON
@@ -12,9 +9,29 @@
 
 <div class="row " id="text">
     <div class="text-center">
+        <form id="save" method="post"  action="javascript:void(null);" onclick="save()">
+        <input id="id" type="" name="__id" value="">
         <p class="text-center"><textarea rows="10" id="edit" cols="45" name="text"></textarea></p>
-        <button type="button" id="editbutton" class="btn btn-small">Редактировать</button>
+            <input type="checkbox" class="custom-control-input" id="defaultUnchecked" name="publiсhed">
+            <label class="custom-control-label" for="defaultUnchecked">Опубликовать</label>
+        <button type="submit" id="editbutton" class="btn btn-small" value="save">Сохранить</button>
+            </form>
     </div>
     <hr>
 </div>
-{% endblock %}
+
+<script type="text/javascript">
+
+
+function save(){
+    var data=$('#save').serializeArray();
+    var tz=new Date().getTimezoneOffset();
+    data.push({name: 'tz', value: tz})
+    console.log(data)
+    $.post("//jsondoc/Save", data);
+
+}
+
+
+
+

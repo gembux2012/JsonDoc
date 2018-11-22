@@ -25,7 +25,9 @@ PRIMARY KEY (__id))';
 __id int (10) AUTO_INCREMENT,
 guid varchar(100) NOT NULL,
 payload text ,
-published DATETIME  ,
+published int  ,
+createAT  int ,
+modifyAT  int,
 __user_id int (10) NOT NULL,
 PRIMARY KEY (__id),
 FOREIGN KEY (__user_id) REFERENCES users (__id) ON DELETE CASCADE)';
