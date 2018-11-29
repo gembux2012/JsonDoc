@@ -9,12 +9,12 @@
 
 <div class="row " id="text">
     <div class="text-center">
-        <form id="save" method="post"  action="javascript:void(null);" onclick="save()">
+        <form id="save" method="post"  action="javascript:void(null); ">
         <input id="id" type="" name="__id" value="">
-        <p class="text-center"><textarea rows="10" id="edit" cols="45" name="text"></textarea></p>
-            <input type="checkbox" class="custom-control-input" id="defaultUnchecked" name="publiсhed">
+        <p class="text-center"><textarea rows="10" id="edit" cols="45" name="payload"></textarea></p>
+            <input type="checkbox" class="custom-control-input" id="defaultUnchecked" name="published">
             <label class="custom-control-label" for="defaultUnchecked">Опубликовать</label>
-        <button type="submit" id="editbutton" class="btn btn-small" value="save">Сохранить</button>
+        <button type="submit" id="editbutton" class="btn btn-small" value="save" onclick="save()">Сохранить</button>
             </form>
     </div>
     <hr>
@@ -26,9 +26,12 @@
 function save(){
     var data=$('#save').serializeArray();
     var tz=new Date().getTimezoneOffset();
+    //data.payload = JSON.parse($('#edit').val())
     data.push({name: 'tz', value: tz})
     console.log(data)
-    $.post("//jsondoc/Save", data);
+    $.post("//jsondoc/Save.json", data, function(){
+        $('sections').load('http://jsondoc/.json?page=1');
+    });
 
 }
 

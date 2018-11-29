@@ -13,6 +13,7 @@ class CreateTables extends Command
 
         $users='CREATE TABLE IF NOT EXISTS  users (__id int (10) AUTO_INCREMENT,
 name varchar(20) NOT NULL,
+__document_id int(10) NOT NULL,
 PRIMARY KEY (__id))';
 
         $session='CREATE TABLE IF NOT EXISTS  sessions (__id int (10) AUTO_INCREMENT,
@@ -25,9 +26,9 @@ PRIMARY KEY (__id))';
 __id int (10) AUTO_INCREMENT,
 guid varchar(100) NOT NULL,
 payload text ,
-published int  ,
-createAT  int ,
-modifyAT  int,
+published int unsigned  ,
+createat  int unsigned  ,
+modifyat  int unsigned ,
 __user_id int (10) NOT NULL,
 PRIMARY KEY (__id),
 FOREIGN KEY (__user_id) REFERENCES users (__id) ON DELETE CASCADE)';
@@ -36,7 +37,7 @@ FOREIGN KEY (__user_id) REFERENCES users (__id) ON DELETE CASCADE)';
         $this->app->db->default->execute($session);
         $this->app->db->default->execute($documents);
 
-     if(!User::findAllByName('name')) {
+     if(!User::findByName('root')) {
          $user = new User();
          $user->name = 'root';
          $user->save();

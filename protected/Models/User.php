@@ -12,7 +12,7 @@ class User
         'table' => 'users',
         'columns' => [
             'name'     => ['type'=>'string'],
-
+            '__document_id' => ['type' => 'relation']
         ],
         'relations' => [
             'documents' => ['type' => self::HAS_MANY, 'model' => Document::class],

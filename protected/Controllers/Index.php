@@ -15,7 +15,16 @@ class Index
 {
     const PAGE_SIZE = 5;
 
-        public function actionDefault($page = 1)
+   public function actionDefault(){
+
+    }
+
+
+    public function actionShablonList(){
+
+    }
+
+        public function actionList($page = 1)
     {
         $documents = [];
         $record = [];
@@ -26,18 +35,30 @@ class Index
 
         foreach ($data as $key_0 => $value_0) {
             $data[$key_0] = $value_0;
-            foreach ($value_0 as $key => $value) {
-                $documents[$key_0][$key] = $value;
-            }
+            $documents[$key_0]['createAT']=$data[$key_0]['createAT'];
+            $documents[$key_0]['modifyAT']=$data[$key_0]['modifyAT'];
+            $documents[$key_0]['guid']=$data[$key_0]['guid'];
+            $documents[$key_0]['payload']=$data[$key_0]['payload'];
+            $documents[$key_0]['status']=$data[$key_0]['status'];
+            $documents[$key_0]['Pk']=$data[$key_0]['Pk'];
+         //   foreach ($value_0 as $key => $value) {
+       //         if ($key == 'paylod')
+//                $documents[$key_0][$key] = $value->toArray();
+
+           //     $documents[$key_0][$key] = $value;
+
+            //}
         }
 
+      //  $documents=$data->toArray();
+       // $this->data->documents=$documents;
         $file = file_get_contents(Helpers::getRealPath('/jsondoc/document-list-response.json'));
 
         $requare=json_decode($file,TRUE);
         $requare["properties"]['pagination']["required"][0]['page']=$page;
         $requare["properties"]['pagination']["required"][0]['perPage']= self::PAGE_SIZE;
         $requare["properties"]['pagination']["required"][0]['total']=Document::countAll();
-        $requare["properties"]['document']['items']['json']=$documents;
+        $requare["properties"]['document']['items']['document']=$documents;
         $this->data->items=$requare;
 
     }
@@ -75,7 +96,7 @@ class Index
             $item->modifyAt=time()+abs($this->app->request->post->tz);
         } else {
             $item = new Document();
-            $item->createAt=time()+abs($this->app->request->post->tz);
+            $item->createat=time()+abs($this->app->request->post->tz);
             $item->guid=Document::getGUID();
         }
         if(!empty($this->app->request->post->published))
@@ -85,7 +106,7 @@ class Index
         $item->fill($this->app->request->post);
         $item->__user_id=$this->app->user->Pk;
         $item->save();
-        $this->redirect('/');
+
 
     }
 

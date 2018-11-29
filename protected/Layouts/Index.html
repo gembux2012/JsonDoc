@@ -25,8 +25,10 @@
     </div>
 </nav>
 
-{% block content %}
-{% endblock %}
+<section>
+
+
+</section>
 
 
 
@@ -36,13 +38,47 @@
 <script src="{{ asset('/Layouts/jquery.simplePagination.js')}}"></script>
 <script type="text/javascript">
 
-    {% block functionjs %} {% endblock %}
+    function list(page) {
+         var list=$.get('http://jsondoc/List.json?page='+page);
+    }
+
 
     function call(){
         request('//jsondoc/Login.json','post',$('#call').serializeArray());
         return false
 
     }
+
+    function body(result){
+        $('section').append($("<div>").load('http://jsondoc/ShablonList #title'));
+
+        $.each(result.items.properties.document.items.document, function (key, val) {
+            $('section').append($('<div>').load('http://jsondoc/ShablonList #body'))
+        })
+
+        $('section').append($('<div>').load('http://jsondoc/ShablonList #footer',function() {
+
+            $('#light-pagination').pagination({
+
+                cssStyle: 'light-theme'
+            })
+            $('#light-pagination').pagination('updateItems', result.items.properties.pagination.required[0].total)
+            $('#light-pagination').pagination('updateItemsOnPage', result.items.properties.pagination.required[0].perPage);
+
+        }))
+
+
+    }
+
+    function puginator(result) {
+
+
+
+    }
+
+
+
+
 
     function request(url, type, data) {
         $.when($.ajax({
@@ -54,10 +90,10 @@
 
             if(result.user['err'])
               $('#validlogin').html(result.user['err'])
-            else
-             refreshmenu(result)
-            puginator(result)
+
+
         }))}
+
 
     function refreshmenu(result)
     {
@@ -94,16 +130,26 @@
 
 
 
+
+
+
+
     $(function() {
 
-        {% block skript %}{% endblock %}
+        //$('section').load('http://jsondoc/ShablonList');
 
+        // list('http://jsondoc/List.json?page=1')
 
+        list(1)['list'].done(function (result) {
+            if (result.user['err'])
+                $('#validlogin').html(result.user['err'])
+            else {
+                   body(result)
+                refreshmenu(result)
+            }
+        });
 
-
-
-        request('http://jsondoc/.json?page=1','get',null);
-
+        //list()
 
 
 

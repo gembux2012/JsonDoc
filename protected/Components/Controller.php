@@ -12,13 +12,14 @@ class Controller
     {
         if($this->app->user)
             self::$user['user'] = $this->app->user->name;
-
             $this->data->user = self::$user;
-
         return true;
+
+
     }
 
     protected function access($action){
+
         if('Edit' == $action)
             if(!$this->app->user)
                return false;

@@ -79,8 +79,29 @@ class Json
 
     }
 
+/*
+$('textarea').val(JSON.stringify(data, "", 10))
+$('#noedit').val(JSON.stringify(data.JsonDoc, "", 10))
+$('#edit').val(JSON.stringify(tmp, "", 10))
 
+});
+});
 
+$('#save').on('click', function () {
+    try {
+        var jdata = JSON.parse($('textarea').val())
+       $.post('http://JsonDoc/Json/Save?data=' + jdata), function (data) {
+            console.log(data);
+            $('textarea').val(JSON.stringify(data, "", 10))
+      edit=JSON.parse($('#edit').val())
+      noedit=JSON.parse($('#noedit').val())
+       noedit.JsonDoc.payload=edit.payload;
+       $.post('http://jsondoc/Json/Save.json',{data:JSON.stringify(noedit)}), function (data) {
+                $('#noedit').val(JSON.stringify(data, "", 10))
+
+       }
+
+*/
 }
 /*SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
