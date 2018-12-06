@@ -1,29 +1,31 @@
 <?php
 
 namespace App\Components;
+use T4\Commands\Application;
 use T4\Http\E403Exception;
+use T4\Mvc\Route;
 
 class Controller
     extends \T4\Mvc\Controller
 {
-    protected static $user=['user' => '', 'err' => ''];
-
     protected function afterAction($action)
     {
-        if($this->app->user)
-            self::$user['user'] = $this->app->user->name;
-            $this->data->user = self::$user;
+
+         $this->data->user = $this->app->user ? $this->app->user->name :  null;
+        //if($this->app->user)
+
+          //  $this->data->user = $this->app->user->name;
         return true;
-
-
     }
 
+
+/*
     protected function access($action){
 
         if('Edit' == $action)
             if(!$this->app->user)
                return false;
     }
-
+*/
 
 }

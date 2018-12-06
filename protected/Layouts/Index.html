@@ -25,91 +25,64 @@
     </div>
 </nav>
 
-<section>
-
-
-</section>
-
-
-
-
+<section></section>
 
 {{ publishJs() }}
 <script src="{{ asset('/Layouts/jquery.simplePagination.js')}}"></script>
 <script type="text/javascript">
 
+    function edit(id){
+        $('section').load('//jsondoc/Edit?id='+id,function(response, status){
+            if(status=='error'){
+                $('section').html(response)
+
+
+            }
+        })
+        return false
+    }
+
+
     function list(page) {
-         var list=$.get('http://jsondoc/List.json?page='+page);
+        $('section').load('http://jsondoc/List?='+page, function(){
+            $.get('//jsondoc/GetList.json?='+page, function(result){
+                $('#light-pagination').pagination('updateItems', result.items.properties.pagination.required[0].total)
+                $('#light-pagination').pagination('updateItemsOnPage', result.items.properties.pagination.required[0].perPage);
+                refreshmenu(result);
+                $('#light-pagination').pagination('selectPage', result.items.properties.pagination.required[0].page);
+            })
+
+
+        });
+
     }
 
 
     function call(){
-        request('//jsondoc/Login.json','post',$('#call').serializeArray());
-        return false
+        $.post('//jsondoc/Login.json',$('#login').serializeArray(),function (result) {
 
-    }
-
-    function body(result){
-        $('section').append($("<div>").load('http://jsondoc/ShablonList #title'));
-
-        $.each(result.items.properties.document.items.document, function (key, val) {
-            $('section').append($('<div>').load('http://jsondoc/ShablonList #body'))
+            if(result.login_err)
+                $('#validlogin').html(result.login_err)
+            else
+                refreshmenu(result)
         })
-
-        $('section').append($('<div>').load('http://jsondoc/ShablonList #footer',function() {
-
-            $('#light-pagination').pagination({
-
-                cssStyle: 'light-theme'
-            })
-            $('#light-pagination').pagination('updateItems', result.items.properties.pagination.required[0].total)
-            $('#light-pagination').pagination('updateItemsOnPage', result.items.properties.pagination.required[0].perPage);
-
-        }))
-
-
+        return false
     }
-
-    function puginator(result) {
-
-
-
-    }
-
-
-
-
-
-    function request(url, type, data) {
-        $.when($.ajax({
-            url: url,
-            type: type,
-            data: data
-
-        }).then(function (result) {
-
-            if(result.user['err'])
-              $('#validlogin').html(result.user['err'])
-
-
-        }))}
 
 
     function refreshmenu(result)
     {
-
-
-        if (!result.user['user']) {
+        if (!result.user) {
             $('#userlogin').html('   <li class="dropdown">' +
                     '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Вход </a>' +
                     '<ul class="dropdown-menu">' +
                     '<h3 class="text-center" style="color: black"></h3>' +
-                    '<form role="form" id="call" action="javascript:void(null);" onsubmit="call()" style="padding: 15px">' +
+                    '<form role="form" id="login" action="javascript:void(null);" onsubmit="call()" style="padding: 15px">' +
                     '<div class="form-group">' +
                     '<p id="validlogin" style="color: #9b0000"></p>' +
                     '<div class="input-group">' +
                     '<span class="input-group-addon"><i class="glyphicon glyphicon-login"></i></span>' +
-                    '<input type="text" placeholder="login" class="form-control input-sm" name="login" value="" id="login"></div><br>' +
+                    '<input type="text" placeholder="login" class="form-control input-sm" name="login" value="" "></div><br>' +
 
                     '<div class="form-group">' +
                     '<button type="submit" class="btn btn-theme-bg pull-right" style="background-color: #77CCDD">' +
@@ -119,12 +92,10 @@
 
         } else {
             $('#userlogin').html(
-                    '<li><a href="/user/logout" data-toggle="tooltip" title="Выход">Вы вошли как: '+result.user['user']+'  &nbsp;&nbsp;<span' +
+                    '<li><a href="/user/logout" data-toggle="tooltip" title="Выход">Вы вошли как: '+result.user+'  &nbsp;&nbsp;<span' +
                     'class="glyphicon glyphicon-log-out"></span></a></li>')
 
         }
-
-
 
     }
 
@@ -136,23 +107,10 @@
 
     $(function() {
 
-        //$('section').load('http://jsondoc/ShablonList');
+        list(1)
 
-        // list('http://jsondoc/List.json?page=1')
-
-        list(1)['list'].done(function (result) {
-            if (result.user['err'])
-                $('#validlogin').html(result.user['err'])
-            else {
-                   body(result)
-                refreshmenu(result)
-            }
-        });
-
-        //list()
-
-
-
+        $('section').on('click','button', function(){edit($(this).val())})
+        $('#light-pagination').pagination('onPageClick',alert('click'))
 
 
     })

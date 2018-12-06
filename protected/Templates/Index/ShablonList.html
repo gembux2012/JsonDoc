@@ -9,11 +9,12 @@
 <div class="row " id="body">
     <div class="text-center">
         <form id="save" method="post"  action="javascript:void(null); ">
-            <input id="id" type="" name="__id" value="">
+          <!--  <input id="id" type="" name="__id" value="">-->
+            <span id="create"></span>&nbsp;<span id="modify"></span>&nbsp;<span id="status"></span>
             <p class="text-center"><textarea rows="10" id="edit" cols="45" name="payload"></textarea></p>
             <input type="checkbox" class="custom-control-input" id="defaultUnchecked" name="published">
             <label class="custom-control-label" for="defaultUnchecked">Опубликовать</label>
-            <button type="button" id="editbutton" class="btn btn-small" value="save" onclick="list('http://jsondoc/List.json?page=2');">
+            <button type="button" id="editbutton" class="btn btn-small" value="save" onclick="">
                 редактировать
             </button>
         </form>

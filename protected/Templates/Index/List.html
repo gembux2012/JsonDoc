@@ -1,6 +1,3 @@
-
-
-
 <div class="container">
     <div class="page-header">
         <h1 class="text-center">JSON
@@ -8,7 +5,27 @@
         </h1>
     </div>
 </div>
-
+{% for item in items %}
+<div class="row " >
+        <div class="text-center">
+        <form id="save" method="post"  action="javascript:void(null); ">
+            <p>Идентификатор: {{item.guid}} </p>
+            <p> Создано: {{item.createat|date("d.m.Y H.i.s")}}</p>
+            <p>Изменено: {{item.modifyat|date("d.m.Y H.i.s")}}</p>
+            {% if item.published %}
+            <p >Опубликовано: {{item.modifyat|date("d.m.Y H.i.s")}}</p>
+            {% else %}
+            <p>Статус: черновик</p>
+            {% endif %}
+            <p class="text-center"><textarea rows="10" id="edit" cols="45" name="payload" value="">{{item.payload}}</textarea></p>
+            <button type="button"  class="btn btn-small" value="{{item.Pk}}" >
+                редактировать
+            </button>
+        </form>
+    </div>
+    <hr>
+</div>
+{% endfor %}
 
 
 
@@ -21,27 +38,19 @@
 
 <script type="text/javascript">
 
-function newdoc(){
-    $('section').load('//jsondoc/Edit?id=new',function(response, status, xhr){
-    if(status=='error'){
-        $('section').html(response)
 
 
-    }
-    })
-    return false
-}
-
-function puginator(result) {
-    $('#light-pagination').pagination('updateItems', result.items.properties.pagination.required[0].total)
-    $('#light-pagination').pagination('updateItemsOnPage', result.items.properties.pagination.required[0].perPage);
-}
 
 $(function() {
     $('#light-pagination').pagination({
 
         cssStyle: 'light-theme'
     })
+
+
+
+
+
 })
 
 </script>

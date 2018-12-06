@@ -16,11 +16,11 @@ class Document
             'published' => ['type' => 'datetime'],
             'createat'  => ['type' => 'integer'],
             'modifyat'  => ['type' => 'integer'],
-            '__user_id' => ['type' =>'relation']
+            //'__user_id' => ['type' =>'relation']
 
         ],
         'relations' => [
-            'users' => ['type' => self::HAS_ONE, 'model' => User::class],
+            'users' => ['type' => self::BELONGS_TO, 'model' => User::class],
         ]
     ];
 
