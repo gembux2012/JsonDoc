@@ -7,7 +7,9 @@
     "properties": {
         "document": {
             "description": "Документ",
-            "$ref": "document.json"
-        }
+            "$ref": "document.json",
+            "user": ""
+        },
+    "user" : ""
     }
 }

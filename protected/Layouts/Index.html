@@ -15,7 +15,7 @@
                 <a  class="nav-link" href="//jsondoc" >На главную</a>
             </li>
             <li>
-                <a  class="nav-link" href="" onclick="return newdoc();">Создать новый документ</a>
+                <a  class="nav-link" href="" onclick="return edit('new');">Создать новый документ</a>
             </li>
         </ul>
         <ul id="userlogin" class="nav navbar-right navbar-nav">
@@ -25,16 +25,26 @@
     </div>
 </nav>
 
-<section></section>
+<section>
+
+</section>
+
+<div id="footer" class="container ">
+    <div id="light-pagination" class="pagination "></div>
+</div>
 
 {{ publishJs() }}
 <script src="{{ asset('/Layouts/jquery.simplePagination.js')}}"></script>
 <script type="text/javascript">
 
     function edit(id){
+        $('#footer').html('');
         $('section').load('//jsondoc/Edit?id='+id,function(response, status){
             if(status=='error'){
+
                 $('section').html(response)
+
+
 
 
             }
@@ -43,18 +53,31 @@
     }
 
 
-    function list(page) {
-        $('section').load('http://jsondoc/List?='+page, function(){
-            $.get('//jsondoc/GetList.json?='+page, function(result){
-                $('#light-pagination').pagination('updateItems', result.items.properties.pagination.required[0].total)
-                $('#light-pagination').pagination('updateItemsOnPage', result.items.properties.pagination.required[0].perPage);
+    function list() {
+              $.get('//jsondoc/GetList.json?=1', function(result){
+                  $('#light-pagination').pagination({
+                      items: result.items.properties.pagination.required[0].total,
+                      itemsOnPage: result.items.properties.pagination.required[0].perPage,
+                      hrefTextPrefix: '#page-',
+                      hrefTextSuffix: '',
+                      prevText: '< назад',
+                      nextText: 'вперед >',
+                      cssStyle: 'light-theme',
+                      selectOnClick: true,
+                      onPageClick: function(pageNumber, event) {
+                          page(pageNumber);
+                      }
+                  })
+
+                  page(1)
+
                 refreshmenu(result);
-                $('#light-pagination').pagination('selectPage', result.items.properties.pagination.required[0].page);
+
             })
+    }
 
-
-        });
-
+    function page(page){
+        $('section').load('http://jsondoc/List?='+page)
     }
 
 
@@ -100,18 +123,14 @@
     }
 
 
-
-
-
-
-
     $(function() {
 
-        list(1)
-
         $('section').on('click','button', function(){edit($(this).val())})
-        $('#light-pagination').pagination('onPageClick',alert('click'))
+        $('ul li .active').on('click',  function(){
+          alert(this.html());
+        });
 
+        list()
 
     })
 

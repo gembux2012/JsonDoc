@@ -12,20 +12,8 @@ class Controller
     {
 
          $this->data->user = $this->app->user ? $this->app->user->name :  null;
-        //if($this->app->user)
 
-          //  $this->data->user = $this->app->user->name;
         return true;
     }
-
-
-/*
-    protected function access($action){
-
-        if('Edit' == $action)
-            if(!$this->app->user)
-               return false;
-    }
-*/
 
 }

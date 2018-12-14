@@ -10,9 +10,10 @@
             "type": "array",
             "items": {
                 "$ref": "document.json"
-            }
+               }
+
         },
-        "pagination": {
+            "pagination": {
             "type": "object",
             "required": [
                 {

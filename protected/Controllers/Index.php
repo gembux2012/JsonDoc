@@ -21,14 +21,16 @@ class Index
     }
 
 
-
-        public function actionList($page = 1)
-        {
-            $this->data->items = Document::findAll([
-                'order' => 'modifyat DESC',
-                'offset' => ($page - 1) * self::PAGE_SIZE,
-                'limit' => self::PAGE_SIZE]);
-        }
+    public function actionList($page = 1)
+    {
+        $this->data->items = Document::findAll([
+            'order' => 'modifyat DESC',
+            'offset' => ($page - 1) * self::PAGE_SIZE,
+            'limit' => self::PAGE_SIZE]);
+        $this->data->total = Document::countAll();
+        $this->data->perPage = self::PAGE_SIZE;
+        $this->data->page = $page;
+    }
 
     public function actionGetList($page=1){
         $data=Document::findAll([

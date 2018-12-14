@@ -18,8 +18,6 @@ class Identity
 
     public function authenticate($name)
     {
-        $errors = new MultiException();
-
 
         if (empty($name)) {
             throw new Exception('Имя пользователя ?',  self::ERROR_INVALID_NAME);
