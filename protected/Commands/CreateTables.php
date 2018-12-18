@@ -33,7 +33,7 @@ modifyat  int unsigned ,
 __user_id int (10) NOT NULL,
 PRIMARY KEY (__id),
 FOREIGN KEY (__user_id) REFERENCES users (__id) ON DELETE CASCADE)';
-
+        //var_dump($this->app->db->default);die;
         $this->app->db->default->execute($users);
         $this->app->db->default->execute($session);
         $this->app->db->default->execute($documents);

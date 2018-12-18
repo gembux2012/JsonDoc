@@ -5,9 +5,9 @@ return [
         'default' => [
             'driver' => 'mysql',
             'host' => 'localhost',
-            'dbname' => 'standard',
-            'user' => 'root',
-            'password' => 'Password00',
+            'dbname' => 'yii2-starter-kit',
+            'user' => 'ysk_dbu',
+            'password' => 'ysk_pass',
         ],
     ],
     'auth' => [
