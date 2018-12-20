@@ -33,6 +33,8 @@ class Index
     }
 
     public function actionGetList($page=1){
+
+       $documents=[];
         $data=Document::findAll([
             'order' => 'modifyat DESC',
             'offset'=> ($page-1)*self::PAGE_SIZE,

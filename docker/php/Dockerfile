@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
 RUN docker-php-ext-install zip intl mbstring pdo_mysql exif \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd
-
+#RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqliservise nging
 RUN pecl install -o -f xdebug \
     && rm -rf /tmp/pear
 
@@ -20,6 +20,7 @@ COPY ./install-composer.sh /
 COPY ./php.ini /usr/local/etc/php/
 COPY ./www.conf /usr/local/etc/php/
 COPY ./hosts /etc/
+COPY ./docker-php-ext-xdebug.ini  /usr/local/etc/php/conf.d/
 
 RUN apt-get purge -y g++ \
     && apt-get autoremove -y \
@@ -27,6 +28,7 @@ RUN apt-get purge -y g++ \
     && rm -rf /tmp/* \
     && sh /install-composer.sh \
     && rm /install-composer.sh
+
 
 RUN usermod -u 1000 www-data
 

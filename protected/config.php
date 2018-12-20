@@ -4,10 +4,10 @@ return [
     'db' => [
         'default' => [
             'driver' => 'mysql',
-            'host' => 'localhost',
-            'dbname' => 'yii2-starter-kit',
-            'user' => 'ysk_dbu',
-            'password' => 'ysk_pass',
+            'host' => 'db',
+            'dbname' => 'jsondoc',
+            'user' => 'root',
+            'password' => 'root',
         ],
     ],
     'auth' => [
