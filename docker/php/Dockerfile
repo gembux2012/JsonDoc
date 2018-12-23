@@ -17,7 +17,7 @@ RUN pecl install -o -f xdebug \
     && rm -rf /tmp/pear
 
 COPY ./install-composer.sh /
-COPY ./php.ini /usr/local/etc/php/
+#COPY ./php.ini /usr/local/etc/php/
 COPY ./www.conf /usr/local/etc/php/
 COPY ./hosts /etc/
 COPY ./docker-php-ext-xdebug.ini  /usr/local/etc/php/conf.d/

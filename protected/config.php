@@ -6,7 +6,7 @@ return [
             'driver' => 'mysql',
             'host' => 'db',
             'dbname' => 'jsondoc',
-            'user' => 'root',
+            'user' => 'jsondoc',
             'password' => 'root',
         ],
     ],
