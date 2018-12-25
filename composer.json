@@ -19,7 +19,7 @@
   "scripts": {
     "docker:build": [
       "@docker:start",
-      "docker-compose exec -T app protected/php t4.php CreateTables/Init",
+      "docker-compose exec -T app php protected/t4.php CreateTables/Init",
       "echo \"All ok!\""
     ],
     "docker:start": [
