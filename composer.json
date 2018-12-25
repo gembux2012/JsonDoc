@@ -15,5 +15,16 @@
   },
   "require": {
     "pr-of-it/t4": "dev-master"
+  },
+  "scripts": {
+    "docker:build": [
+      "@docker:start",
+      "docker-compose exec -T app protected/php t4.php CreateTables/Init",
+      "echo \"All ok!\""
+    ],
+    "docker:start": [
+      "docker-compose up --force-recreate -d"
+    ]
+
   }
 }

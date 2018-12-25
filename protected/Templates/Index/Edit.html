@@ -10,13 +10,17 @@
 <div class="row " id="text">
     <div class="text-center">
         <form id="save"  >
+            {% if  not item.isnew %}
             <p>Идентификатор: {{item.guid}} </p>
             <p> Создано:{{item.createat|date("d.m.Y H.i.s")}}</p>
-            <p>Изменено:{{item.modifyat|date("d.m.Y H.i.s")}}</p>
+            {% if item.modifyat %}
+            <p>Изменено: {{item.modifyat|date("d.m.Y H:i:s")}}</p>
+            {% endif %}
             {% if item.published %}
             <p >Опубликовано: {{item.modifyat|date("d.m.Y H.i.s")}}</p>
             {% else %}
             <p>Статус: черновик</p>
+            {% endif %}
             {% endif %}
         <input id="id" type="hidden" name="__id" value="{{item.pK}}">
         <p class="text-center"><textarea rows="10" id="edit" cols="45" name="payload">{{item.payload}}</textarea></p>

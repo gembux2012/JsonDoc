@@ -87,21 +87,21 @@ class Index
             } else {
                 $item = Document::findByPK($id);
                 if ($item->users->name == $this->app->user->name) {
-                    $this->data->item = $item;
+                    if ($item->puluished){
+                        $this->data->item = $item;
+                    } else {
+                        $this->error('403','Документ опубликован, редактирование невозможно');
+                    }
+
+
                 } else {
-                    header('HTTP/1.0 403 Forbidden', true, 403);
-                    $route = new Route($this->app->config->errors['403']);
-                    $route->params->message="Вы не являетесь владельцем документа";
-                    $this->app->runRoute($route, 'html');
-                    die;
+                    $this->error('403','Вы не являетесь владельцем документа');
+
                 }
             }
         } else {
-            header('HTTP/1.0 401 Forbidden', true, 401);
-            $route = new Route($this->app->config->errors['401']);
-            $route->params->message="Вы не авторизованый пользователь";
-            $this->app->runRoute($route, 'html');
-            die;
+            $this->error('401','Вы не авторизованый пользователь');
+
         }
 
     }
@@ -111,12 +111,12 @@ class Index
         date_default_timezone_set("UTC");
         if (!empty($this->app->request->post->__id)) {
             $item = Document::findByPK($this->app->request->post->__id);
-            $item->modifyat=time()+abs($this->app->request->post->tz);
+            $item->modifyat=time()+abs($this->app->request->post->tz)*60;
         } else {
             $item = new Document();
-            $item->createat=time()+abs($this->app->request->post->tz);
+            $item->createat=time()+abs($this->app->request->post->tz)*60;
             $item->guid=Document::getGUID();
-            $item->user=$this->app->user->Pk;
+            $item->users=$this->app->user->Pk;
         }
         if($this->app->request->post->action == 'publish')
             $item->published=true;
@@ -137,5 +137,7 @@ class Index
     public function action401($message){
         $this->data->msg=$message;
     }
+
+
 
 }

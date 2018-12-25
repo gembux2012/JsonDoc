@@ -7,7 +7,7 @@ return [
             'host' => 'db',
             'dbname' => 'jsondoc',
             'user' => 'jsondoc',
-            'password' => 'root',
+            'password' => 'Password00',
         ],
     ],
     'auth' => [

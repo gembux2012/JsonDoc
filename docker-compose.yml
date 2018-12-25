@@ -1,4 +1,4 @@
-version: "2"
+version: '2'
 
 services:
   app:
@@ -8,9 +8,9 @@ services:
       - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
     depends_on:
       - db
+#    environment:
+ #    PHP_IDE_CONFIG: "serverName=Docker"
 
-  #  env_file:
-   #   - .env
 
 
 

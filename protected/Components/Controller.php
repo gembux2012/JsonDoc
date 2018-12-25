@@ -16,4 +16,12 @@ class Controller
         return true;
     }
 
+    protected  function error($code, $message){
+        header('HTTP/1.0 '.$code.' Forbidden', true, $code);
+        $route = new Route($this->app->config->errors[$code]);
+        $route->params->message=$message;
+        $this->app->runRoute($route, 'html');
+        die;
+    }
+
 }

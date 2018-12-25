@@ -16,7 +16,7 @@ RUN docker-php-ext-install zip intl mbstring pdo_mysql exif \
 RUN pecl install -o -f xdebug \
     && rm -rf /tmp/pear
 
-COPY ./install-composer.sh /
+#COPY ./install-composer.sh /
 #COPY ./php.ini /usr/local/etc/php/
 COPY ./www.conf /usr/local/etc/php/
 COPY ./hosts /etc/
@@ -26,8 +26,8 @@ RUN apt-get purge -y g++ \
     && apt-get autoremove -y \
     && rm -r /var/lib/apt/lists/* \
     && rm -rf /tmp/* \
-    && sh /install-composer.sh \
-    && rm /install-composer.sh
+ #   && sh /install-composer.sh \
+  #  && rm /install-composer.sh
 
 
 RUN usermod -u 1000 www-data

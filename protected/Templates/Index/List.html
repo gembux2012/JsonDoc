@@ -10,8 +10,10 @@
         <div class="text-center">
         <form id="save" method="post"  action="javascript:void(null); ">
             <p>Идентификатор: {{item.guid}} </p>
-            <p> Создано: {{item.createat|date("d.m.Y H.i.s")}}</p>
-            <p>Изменено: {{item.modifyat|date("d.m.Y H.i.s")}}</p>
+            <p> Создано: {{item.createat|date("d.m.Y H:i:s")}}</p>
+            {% if item.modifyat %}
+            <p>Изменено: {{item.modifyat|date("d.m.Y H:i:s")}}</p>
+            {% endif %}
             {% if item.published %}
             <p >Опубликовано: {{item.modifyat|date("d.m.Y H.i.s")}}</p>
             {% else %}

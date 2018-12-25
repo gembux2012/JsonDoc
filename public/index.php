@@ -5,6 +5,7 @@ require __DIR__ . '/../protected/boot.php';
 require __DIR__ . '/../protected/autoload.php';
 
 //phpinfo();die;
+//echo 'l;k;l';
 T4\Mvc\Application
     ::instance()
     ->setConfig(
