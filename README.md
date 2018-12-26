@@ -1,7 +1,17 @@
 # Создание и редактирование JSON
 
 <!-- BADGES/ -->
+Прриложение создано на основе фрэймворка 
+[T4](https://github.com/pr-of-it/t4)
 
+- [Demo](#demo)
+- [Приступая к разработке](#Приступая-к-разработке)
+  - [Создание таблиц](#Создание-таблиц)
+  - [Авторизация](#Авторизация)
+  - [Доступ](#Доступ)
+    - [Контроллер](#Контроллер)
+      - [Методы GetList(), List()](#методы-GetList(),-List())
+      
 
 ## Быстрый старт
 1. [Install composer](https://getcomposer.org)
@@ -15,17 +25,44 @@
     ```
 5. Go to [http://yii2-starter-kit.localhost](http://yii2-starter-kit.localhost)
 
-## FEATURES
-### Admin backend
-- Beautiful and open source dashboard theme for backend [AdminLTE 2](http://almsaeedstudio.com/AdminLTE)
-- Content management components: articles, categories, static pages, editable menu, editable carousels, text blocks
-- Settings editor. Application settings form (based on KeyStorage component)
-- [File manager](https://github.com/MihailDev/yii2-elfinder)
-- Users, RBAC management
-- Events timeline
-- Logs viewer
-- System monitoring
+## Приступая к разработке
+ Не являсь профессиональным веб-разработчиком, никак не мог понять в каком случае
+ может понадобиться пользователю на сайте создавать и редактировать
+ JSON.  
+ Так же много времени заняло освоение Docker-a, поскольку 
+ я им не разу не пользовался.  
+ 
+ Для начала в соответствии с экоситемой фрэймворка создаем в 
+ /protected директории:  
+  -Commands - работа с командной строки  
+  -Components/Auth - авторизация  
+  -Controllers - дефолтный контроллер  
+  -Models - модели таблиц  
+  -Templates/Index - вьюеры экшенов контроллера  
+ 
+## Создание таблиц
+ 
+ В фрэймворке существует механизм миграций, но в данном случае я его не использую.
+ Создадим в /Commands класс [CreateTables унаследованный от Command](https://github.com/gembux2012/jsondoc/blob/master/protected/Commands/CreateTables.php#L10)
+ c экшеном Init().  
+ Описываем создание 3 таблиц на SQL:  
+  -users - пользователи  
+  -documents - документы json созданные пользователями  
+  -sessions - для хранения сессий  
+  Назначение полей понятно из названий.  
+  Метод [execute()](https://github.com/gembux2012/jsondoc/blob/master/protected/Commands/CreateTables.php#L37)- создает таблицы.  
+  Создаем [пользователя](https://github.com/gembux2012/jsondoc/blob/master/protected/Commands/CreateTables.php#L41).  
+  Командой php /protected/t4.php CreateTables/Init будут созданы таблицы и пользователь
+  root.
+  
+## Авторизация
 
+  
+  
+  
+  
+  
+  
 ### I18N
 - Built-in translations:
     - English

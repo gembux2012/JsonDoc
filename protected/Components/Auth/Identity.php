@@ -57,11 +57,6 @@ class Identity
     }
 
 
-
-
-    /**
-     * @param \App\Models\User $user
-     */
     public function login($user)
     {
         $app = Application::Instance();
