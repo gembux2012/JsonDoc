@@ -49,13 +49,67 @@
   -users - пользователи  
   -documents - документы json созданные пользователями  
   -sessions - для хранения сессий  
-  Назначение полей понятно из названий.  
+  Назначение полей понятно из названий.    
+  Используем ORM фрэймворка.
   Метод [execute()](https://github.com/gembux2012/jsondoc/blob/master/protected/Commands/CreateTables.php#L37)- создает таблицы.  
   Создаем [пользователя](https://github.com/gembux2012/jsondoc/blob/master/protected/Commands/CreateTables.php#L41).  
   Командой php /protected/t4.php CreateTables/Init будут созданы таблицы и пользователь
   root.
   
 ## Авторизация
+
+Создаем класс [/protected/Components/Auth/Identity](https://github.com/gembux2012/jsondoc/blob/master/protected/Components/Auth/Identity.php#L12) наследник
+от \T4\Auth\Identity
+перегружаем методы нужные нам для авторизации:
+  
+ -[Login()](https://github.com/gembux2012/jsondoc/blob/master/protected/Components/Auth/Identity.php#L60)    
+[Читаем из конфига срок действия куки](https://github.com/gembux2012/jsondoc/blob/master/protected/Components/Auth/Identity.php#L82)  
+[получаем токен](https://github.com/gembux2012/jsondoc/blob/master/protected/Components/Auth/Identity.php#L83)  
+[Выставляем юзеру кукку с токеном и сроком действия](https://github.com/gembux2012/jsondoc/blob/master/protected/Components/Auth/Identity.php#L82)  
+[записываем в таблицу сесий токен, имя юзера и браузер юзера](https://github.com/gembux2012/jsondoc/blob/master/protected/Components/Auth/Identity.php#L70)  
+
+-[getUser()]()  
+Проверяем куку, если есть - читаем из куки токен. Ищем токен в таблице сессий, если
+не находим удаляем куку. Если сессия с таки токеном есть, но браузер другой - 
+удаляем запись о сессии из таблицы, удаляем куку.
+[Иначе возвращаем юзера](https://github.com/gembux2012/jsondoc/blob/master/protected/Components/Auth/Identity.php#L56)  
+Данный метод позволяет получить юзера в любом месте приложения $user=$this->app->user
+  
+И еще два метода:  
+  -authenticate($name) - проверка имени пользователя при авторизации  и
+  -logout() там все просто.
+  
+##Доступ
+Создаем /Component/Controller.php класс [Controller](https://github.com/gembux2012/jsondoc/blob/master/protected/Components/Controller.php#L8)
+наследуем от \T4\Mvc\Controller  
+перегружаем метод afterAction($action), он будет в любом контроллере 
+унаследуемого от данного в любом экшене возвращать юзера.  
+
+И создадим метод error(), который будет возвращать ошибки 401,403  
+В фрэймворке есть замечательный метод access($action)
+который позволяет разделять доступ к любым контроллерам и экшенам по любому критерию,
+но он возвращает только 404 Not Found и 403 Forbidden, чего
+вполне достаточно, но не соответствует заданию.
+
+## Контроллер
+
+Создаем контроллер /protected/Controllers/Index.php  
+наследуем от ранее созданного /Component/Controller  
+Экшены:  
+  - login() тут все понятно авторизация  
+  - [List()](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L24) и [getList()](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L35)  
+  делают одно и тоже. Из таблицы documents выбирается
+   по 5 записей(для пагинации), начиная с номера страницы выбранной в пагинаторе
+   на сайте. Только getList() формирует ответ в формате json   
+  
+
+
+  
+
+
+   
+  
+
 
   
   

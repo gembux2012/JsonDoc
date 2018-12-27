@@ -40,8 +40,8 @@ class Identity
         if (!\T4\Http\Helpers::issetCookie(self::AUTH_COOKIE_NAME))
             return null;
 
-        $hash = \T4\Http\Helpers::getCookie(self::AUTH_COOKIE_NAME);
-        $session = UserSession::findByHash($hash);
+        $token = \T4\Http\Helpers::getCookie(self::AUTH_COOKIE_NAME);
+        $session = UserSession::findByHash($token);
         if (empty($session)) {
             \T4\Http\Helpers::unsetCookie(self::AUTH_COOKIE_NAME);
             return null;
@@ -63,12 +63,12 @@ class Identity
         $expire = isset($app->config->auth) && isset($app->config->auth->expire) ?
             time() + $app->config->auth->expire :
             0;
-        $hash = md5(time() . rand(5,5));
+        $token = md5(time() . rand(5,5));
 
-        \T4\Http\Helpers::setCookie(self::AUTH_COOKIE_NAME, $hash, $expire);
+        \T4\Http\Helpers::setCookie(self::AUTH_COOKIE_NAME, $token, $expire);
 
         $session = new UserSession();
-        $session->hash = $hash;
+        $session->hash = $token;
         $session->userAgentHash = md5($_SERVER['HTTP_USER_AGENT']);
         $session->user = $user;
         $session->save();
@@ -79,8 +79,8 @@ class Identity
         if (!\T4\Http\Helpers::issetCookie(self::AUTH_COOKIE_NAME))
             return;
 
-        $hash = \T4\Http\Helpers::getCookie(self::AUTH_COOKIE_NAME);
-        $session = UserSession::findByHash($hash);
+        $token = \T4\Http\Helpers::getCookie(self::AUTH_COOKIE_NAME);
+        $session = UserSession::findByHash($token);
         if (empty($session)) {
             \T4\Http\Helpers::unsetCookie(self::AUTH_COOKIE_NAME);
             return;
