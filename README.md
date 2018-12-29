@@ -100,7 +100,49 @@
   - [List()](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L24) и [getList()](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L35)  
   делают одно и тоже. Из таблицы documents выбирается
    по 5 записей(для пагинации), начиная с номера страницы выбранной в пагинаторе
-   на сайте. Только getList() формирует ответ в формате json   
+   на сайте. Только getList() формирует ответ в формате json, в соответствии с заданием. 
+   Берем схему json прямо из файла [document-list-response.json](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L43)  
+   и заполняем значениями из [таблицы documents](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L43)  
+   и значениями для [пагинации](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L58).  
+   Вызываем экшен   $.get('//jsondoc/GetList.json?=1' здесь ".json" 
+   означает что экшен вернет данные в формате json.  
+   Можно было бы создавать элементы страницы прямо из json ответа, но
+   это безумный нечитабельный код на js(я не профессионал может это и не так)
+   поэтому экшен List() отдает то же самое во вьюер
+   [List.html](https://github.com/gembux2012/jsondoc/blob/master/protected/Templates/Index/List.html#L9), где  с помощью
+   twig все просто и красиво отрисовывается. 
+   
+   -[Edit()](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L81)  
+   Проверяем, создает пользователь новый документ, или запрашивает на редактирование
+   [существующий](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L85)  
+   [Если документ опубликован, возвращаем 403](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L90)  
+   [Если пользователь не является владельцем документа, возвращаем 403](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L89)  
+   [Если пользователь не авторизован, возвращаем 401](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L83  )  
+   Соответственно getEdit() делает то же самое но в формате json.
+   
+   -[Save()](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L109)  
+   [Устанавливаем тайм зону по Гринвичу.](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L111)
+   Прверяем, новая запись, или существующая.
+   соответственно [создаем новую запись](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L116) или получаем из таблицы [существующую.](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L113)]
+   Получаем со страницы тайм зону пользователя и прибавляем к текущему по гринвичу,
+   таким образом время создания или модификации документа, будет реальным временем пользователя.
+   [Если документ публикуется, устанавливаем признак публикации.](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L122)  
+   [Заполняем оставшиеся поля из post.](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L125)  
+   [Сохраняем запись.](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L127)
+   
+   action403($message),action404($message) будут [вызваны](https://github.com/gembux2012/jsondoc/blob/master/protected/Components/Controller.php#L23)  
+    при нарушении прав доступа.
+    
+** Фронтэнд
+Верстка BOOTSTRAP  
+[Index.html](https://github.com/gembux2012/jsondoc/blob/master/protected/Layouts/Index.html)  
+
+      
+   
+     
+   
+         
+
   
 
 

@@ -14,9 +14,10 @@ use T4\Mvc\Route;
 class Index
     extends Controller
 {
-    const PAGE_SIZE = 5;
+    const PAGE_SIZE = 2;
 
-   public function actionDefault(){
+
+    public function actionDefault(){
 
     }
 
@@ -87,7 +88,7 @@ class Index
             } else {
                 $item = Document::findByPK($id);
                 if ($item->users->name == $this->app->user->name) {
-                    if ($item->puluished){
+                    if (!$item->pulished){
                         $this->data->item = $item;
                     } else {
                         $this->error('403','Документ опубликован, редактирование невозможно');

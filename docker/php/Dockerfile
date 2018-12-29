@@ -31,6 +31,8 @@ RUN usermod -u 1000 www-data
 VOLUME /root/.composer
 WORKDIR /app
 
+
+
 EXPOSE 9000
 CMD ["php-fpm"]
 
