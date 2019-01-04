@@ -1,0 +1,20 @@
+{
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "jsondoc/jsondoc",
+        "version": "1.0.0",
+        "source": {
+          "url": "https://github.com/gembux2012/jsondoc",
+          "type": "git",
+          "reference": "master"
+        }
+      }
+    }
+  ],
+  "require": {
+    "jsondoc/jsondoc": "1.0.*"
+
+  }
+}

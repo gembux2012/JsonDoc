@@ -10,23 +10,11 @@
       "role": "Developer"
     }
   ],
-  "repositories": [ {
-    "type": "package",
-    "package": {
-      "name": "jsondoc/jsondoc",
-      "version": "1.0.0",
-      "source": {
-        "url": "https://github.com/gembux2012/jsondoc",
-        "type": "git",
-        "reference": "master"
-      }
-    }
-  }],
+
   "support": {
     "forum": "http://pr-of-it.ru/forum/"
   },
   "require": {
-    "jsondoc/jsondoc": "1.0.*",
     "pr-of-it/t4": "dev-master"
   },
   "scripts": {
