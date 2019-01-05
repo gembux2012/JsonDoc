@@ -1,20 +1,18 @@
 {
-  "name": "pr-of-it/t4-app-mini",
-  "description": "Minimal web-application based on T4 framework",
+  "name": "jsondoc/jsondoc",
+  "description": "test web-application based on T4 framework",
   "type": "project",
-  "license": "LGPL-3.0",
   "authors": [
     {
-      "name": "Alber Stepantsev",
-      "email": "admin@pr-of-it.ru",
+      "name": "Alexey Gembukx",
+      "email": "gembux2012@gmail.com",
       "role": "Developer"
     }
   ],
 
-  "support": {
-    "forum": "http://pr-of-it.ru/forum/"
-  },
+
   "require": {
+    "gembux2012/jsondoc": "dev-master",
     "pr-of-it/t4": "dev-master"
   },
   "scripts": {
