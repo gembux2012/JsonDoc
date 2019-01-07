@@ -1,42 +1,19 @@
 {
-  "name": "jsondoc/jsondoc",
-  "description": "test web-application based on T4 framework",
+  "name": "pr-of-it/t4-app-mini",
+  "description": "Minimal web-application based on T4 framework",
   "type": "project",
+  "license": "LGPL-3.0",
   "authors": [
     {
-      "name": "Alexey Gembukx",
-      "email": "gembux2012@gmail.com",
+      "name": "Alber Stepantsev",
+      "email": "admin@pr-of-it.ru",
       "role": "Developer"
     }
   ],
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "jsondoc/jsondoc",
-        "version": "1.0.0",
-        "source": {
-          "url": "https://github.com/gembux2012/jsondoc",
-          "type": "git",
-          "reference": "master"
-        }
-      }
-    }
-  ],
-
-  "require": {
-    "gembux2012/jsondoc": "dev-master",
-    "pr-of-it/t4": "dev-master"
+  "support": {
+    "forum": "http://pr-of-it.ru/forum/"
   },
-  "scripts": {
-    "docker:build": [
-      "@docker:start",
-      "docker-compose exec -T app php protected/t4.php CreateTables/Init",
-      "echo \"All ok!\""
-    ],
-    "docker:start": [
-      "docker-compose up --force-recreate -d"
-    ]
-
+  "require": {
+    "pr-of-it/t4": "dev-master"
   }
 }
