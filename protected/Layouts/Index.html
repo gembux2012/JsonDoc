@@ -12,7 +12,7 @@
     <div class="container">
         <ul class="nav  navbar-nav">
             <li>
-                <a  class="nav-link" href="//jsondoc" >На главную</a>
+                <a  class="nav-link" href="/" >На главную</a>
             </li>
             <li>
                 <a  class="nav-link" href="" onclick="return edit('new');">Создать новый документ</a>
@@ -39,7 +39,7 @@
 
     function edit(id){
         $('#footer').html('');
-        $('section').load('//jsondoc/Edit?id='+id,function(response, status){
+        $('section').load('/Edit?id='+id,function(response, status){
             if(status=='error'){
 
                 $('section').html(response)
@@ -54,7 +54,7 @@
 
 
     function list() {
-              $.get('//jsondoc/GetList.json?=1', function(result){
+              $.get('/GetList.json?=1', function(result){
                   $('#light-pagination').pagination({
                       items: result.items.properties.pagination.required[0].total,
                       itemsOnPage: result.items.properties.pagination.required[0].perPage,
@@ -77,12 +77,12 @@
     }
 
     function page(page){
-        $('section').load('http://jsondoc/List?page='+page)
+        $('section').load('http:/List?page='+page)
     }
 
 
     function call(){
-        $.post('//jsondoc/Login.json',$('#login').serializeArray(),function (result) {
+        $.post('/Login.json',$('#login').serializeArray(),function (result) {
 
             if(result.login_err)
                 $('#validlogin').html(result.login_err)
