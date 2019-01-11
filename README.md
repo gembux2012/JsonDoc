@@ -2,35 +2,56 @@
 
 <!-- BADGES/ -->
 Прриложение создано на основе фрэймворка 
-[T4](https://github.com/pr-of-it/t4)
+[T4](https://github.com/pr-of-it/t4-app-mini) 
 
-- [Demo](#demo)
+- [Demo](http://194437.simplecloud.ru./) пароль для входа root
 - [Приступая к разработке](#Приступая-к-разработке)
+  - [Config](#Config)
   - [Создание таблиц](#Создание-таблиц)
   - [Авторизация](#Авторизация)
   - [Доступ](#Доступ)
     - [Контроллер](#Контроллер)
       - [Методы GetList(), List()](#методы-GetList(),-List())
+  
+  - [Фротэнд](#Фронтэнд)     
       
 
 ## Быстрый старт
 1. [Install composer](https://getcomposer.org)
 2. [Install docker](https://docs.docker.com/install/)
 3. [Install docker-compose](https://docs.docker.com/compose/install/)
-4. Run 
-    ```bash
-    composer create-project yii2-starter-kit/yii2-starter-kit myproject.com --ignore-platform-reqs
-    cd myproject.com
-    composer run-script docker:build
-    ```
-5. Go to [http://yii2-starter-kit.localhost](http://yii2-starter-kit.localhost)
+4. Поскольку данный проект не нужен на packagist.org то:
+  - git clone https://github.com/gembux2012/jsondoc
+  - cd jsondoc
+  - composer install  
+  - composer run-script docker:build
+   
+5. Go to [http://jsondoc/](http://jsondoc/)
 
 ## Приступая к разработке
  Не являсь профессиональным веб-разработчиком, никак не мог понять в каком случае
  может понадобиться пользователю на сайте создавать и редактировать
  JSON.  
  Так же много времени заняло освоение Docker-a, поскольку 
- я им не разу не пользовался.  
+ я им не разу не пользовался.
+ Описывать  [docker](https://github.com/gembux2012/jsondoc/tree/master/docker) файлы
+ и  [docker-compose](https://github.com/gembux2012/jsondoc/blob/master/docker-compose.yml)
+ не вижу смысла, все стандартно. 
+   Собственно само задание, отдать  данные на страницу в формате json
+   не вызывает никаких затруднений. Читаем json прямо из файла задания и
+   заполняем его даннымми из таблицы. Только непонятно, что потом с этими 
+   json_ами делать. Отрисовывать страницу читая из них данные,так это 
+   нечитабельный код на js(может это и не так, но я не нашел вменяемого способа
+   создание html на js).
+   Поэтому на чистом js работает пагинатор и  аутентификация.  
+   Весь остальной интерфейс: подготоаливается кусок страницы на HTML 
+   и подгружается  с помощью .load();
+Так же не смог выяснить зачем нужен метод PATCH.
+Без него все прекрасно.
+
+   
+    
+Ну и собственно приступаем: 
  
  Для начала в соответствии с экоситемой фрэймворка создаем в 
  /protected директории:  
@@ -40,6 +61,17 @@
   -Models - модели таблиц  
   -Templates/Index - вьюеры экшенов контроллера  
  
+## Config
+Устнавливаем значения [config.php](https://github.com/gembux2012/jsondoc/blob/master/protected/config.php) фрэймворка.  
+[ 'db' =>](https://github.com/gembux2012/jsondoc/blob/master/protected/config.php) - подключение
+к mysql;  
+['auth' =>](https://github.com/gembux2012/jsondoc/blob/master/protected/config.php) - длительность сесии;   
+ ['extensions' =>](https://github.com/gembux2012/jsondoc/blob/master/protected/config.php) - подключаем расширения 
+ bootstrap и jquery;  
+['errors' =>](https://github.com/gembux2012/jsondoc/blob/master/protected/config.php) - вызов экшенов на ошибки 403 404 
+
+
+
 ## Создание таблиц
  
  В фрэймворке существует механизм миграций, но в данном случае я его не использую.
@@ -98,9 +130,16 @@
 Экшены:  
   - login() тут все понятно авторизация  
   - [List()](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L24) и [getList()](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L35)  
-  делают одно и тоже. Из таблицы documents выбирается
+  делают одно и тоже, только getList() формально выполняет все задание
+  : возвращает [document-list-response.json](https://github.com/gembux2012/jsondoc/blob/master/public/jsondoc/document-list-response.json),
+  с пагинацией, телом json документа, ссылкой на документ, время содания
+  и модификации, статус, GUID.   
+   
+   
+   Из таблицы documents выбирается
    по 5 записей(для пагинации), начиная с номера страницы выбранной в пагинаторе
-   на сайте. Только getList() формирует ответ в формате json, в соответствии с заданием. 
+   на сайте. Только getList() формирует ответ в формате json, в соответствии с заданием, 
+   a List() вернет страницу в формате html. 
    Берем схему json прямо из файла [document-list-response.json](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L43)  
    и заполняем значениями из [таблицы documents](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L43)  
    и значениями для [пагинации](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L58).  
@@ -118,7 +157,7 @@
    [Если документ опубликован, возвращаем 403](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L90)  
    [Если пользователь не является владельцем документа, возвращаем 403](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L89)  
    [Если пользователь не авторизован, возвращаем 401](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L83  )  
-   Соответственно getEdit() делает то же самое но в формате json.
+   
    
    -[Save()](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L109)  
    [Устанавливаем тайм зону по Гринвичу.](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L111)
@@ -134,8 +173,14 @@
     при нарушении прав доступа.
     
 ** Фронтэнд
-Верстка BOOTSTRAP  
-[Index.html](https://github.com/gembux2012/jsondoc/blob/master/protected/Layouts/Index.html)  
+Верстка на BOOTSTRAP и tweeg
+Я плохо понимаю безумный js и может все нужно делать совсем по другому
+, но тем не менее все работает.  
+Обновление страниц происходит без перерезагузки методом .Load(),
+описывать создание фронтэнда не требовалось, поэтому я м не буду, там все очен просто.
+
+
+  
 
       
    
