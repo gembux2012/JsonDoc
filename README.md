@@ -37,6 +37,7 @@
  Описывать  [docker](https://github.com/gembux2012/jsondoc/tree/master/docker) файлы
  и  [docker-compose](https://github.com/gembux2012/jsondoc/blob/master/docker-compose.yml)
  не вижу смысла, все стандартно. 
+ 
    Собственно само задание, отдать  данные на страницу в формате json
    не вызывает никаких затруднений. Читаем json прямо из файла задания и
    заполняем его даннымми из таблицы. Только непонятно, что потом с этими 
