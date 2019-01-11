@@ -54,12 +54,12 @@
 Ну и собственно приступаем: 
  
  Для начала в соответствии с экоситемой фрэймворка создаем в 
- /protected директории:  
-  -Commands - работа с командной строки  
-  -Components/Auth - авторизация  
-  -Controllers - дефолтный контроллер  
-  -Models - модели таблиц  
-  -Templates/Index - вьюеры экшенов контроллера  
+ [/protected](https://github.com/gembux2012/jsondoc/tree/master/protected) :  
+  -[Commands](https://github.com/gembux2012/jsondoc/tree/master/protected/Commands) - работа с командной строки  
+  -[Components/Auth](https://github.com/gembux2012/jsondoc/tree/master/protected/Components) - авторизация  
+  -[Controllers](https://github.com/gembux2012/jsondoc/tree/master/protected/Controllers) - дефолтный контроллер  
+  -[Models](https://github.com/gembux2012/jsondoc/tree/master/protected/Models) - модели таблиц  
+  -[Templates/Index](https://github.com/gembux2012/jsondoc/tree/master/protected/Templates/Index) - вьюеры экшенов контроллера  
  
 ## Config
 Устнавливаем значения [config.php](https://github.com/gembux2012/jsondoc/blob/master/protected/config.php) фрэймворка.  
@@ -82,11 +82,16 @@
   -documents - документы json созданные пользователями  
   -sessions - для хранения сессий  
   Назначение полей понятно из названий.    
-  Используем ORM фрэймворка.
+  Используем ORM фрэймворка. Он прост по сравнению с Doctrine 
+  и позволяет выполнять любые sql запросы.  
   Метод [execute()](https://github.com/gembux2012/jsondoc/blob/master/protected/Commands/CreateTables.php#L37)- создает таблицы.  
   Создаем [пользователя](https://github.com/gembux2012/jsondoc/blob/master/protected/Commands/CreateTables.php#L41).  
   Командой php /protected/t4.php CreateTables/Init будут созданы таблицы и пользователь
   root.
+  Для ОРМ описываем модели таблиц:
+  - [Документы](https://github.com/gembux2012/jsondoc/blob/master/protected/Models/Document.php)
+  - [Пользователи](https://github.com/gembux2012/jsondoc/blob/master/protected/Models/User.php)
+  - [Сессии](https://github.com/gembux2012/jsondoc/blob/master/protected/Models/UserSession.php)
   
 ## Авторизация
 
@@ -137,7 +142,7 @@
    
    
    Из таблицы documents выбирается
-   по 2 записи(для пагинации), начиная с номера страницы выбранной в пагинаторе
+   по [2](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L17) записи (для пагинации ), начиная с номера страницы выбранной в пагинаторе
    на сайте. Только getList() формирует ответ в формате json, в соответствии с заданием, 
    a List() вернет страницу в формате html. 
    Берем схему json прямо из файла [document-list-response.json](https://github.com/gembux2012/jsondoc/blob/master/protected/Controllers/Index.php#L43)  
