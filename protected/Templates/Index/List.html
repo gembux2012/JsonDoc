@@ -20,8 +20,11 @@
             <p>Статус: черновик</p>
             {% endif %}
             <p class="text-center"><textarea rows="10" id="edit" cols="45" name="payload" value="">{{item.payload}}</textarea></p>
-            <button type="button"  class="btn btn-small" value="{{item.Pk}}" >
+            <button type="button"  class="btn btn-small" id="edit_btn" value="{{item.Pk}}" >
                 редактировать
+            </button>
+            <button type="button"  class="btn btn-small" id="delete" value="{{item.Pk}}" >
+                удалить
             </button>
         </form>
     </div>

@@ -38,22 +38,34 @@
 <script type="text/javascript">
 
     function edit(id){
-        $('#footer').html('');
+        $('#footer').hide();
         $('section').load('/Edit?id='+id,function(response, status){
-            if(status=='error'){
-
+            if(status=='error') {
                 $('section').html(response)
+            }
 
 
+        })
+        return false
+    }
 
-
+    function del(id){
+        $('#footer').hide();
+        $('section').load('/Delete.json?id='+id,function(response, status){
+            if(status=='error') {
+                $('section').html(response)
+            }
+            else {
+                list()
             }
         })
         return false
     }
 
 
+
     function list() {
+
               $.get('/GetList.json?=1', function(result){
                   $('#light-pagination').pagination({
                       items: result.items.properties.pagination.required[0].total,
@@ -72,6 +84,7 @@
                   page(1)
 
                 refreshmenu(result);
+                  $('#footer').show();
 
             })
     }
@@ -125,7 +138,8 @@
 
     $(function() {
 
-        $('section').on('click','button', function(){edit($(this).val())})
+        $('section').on('click','#edit_btn', function(){edit($(this).val())})
+        $('section').on('click','#delete', function(){del($(this).val())})
 
         list()
 

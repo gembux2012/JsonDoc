@@ -40,8 +40,8 @@
         var tz = new Date().getTimezoneOffset();
         //data.payload = JSON.parse($('#edit').val())
         formData.push({name: 'tz', value: tz})
-        $.post("/Save.json", formData, function () {
-            list(1)
+        $.post("/Save", formData, function () {
+            location.href = '/';
             //$('.result').html(JSON.stringify(formData));
         })
     })

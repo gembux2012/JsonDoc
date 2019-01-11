@@ -88,16 +88,14 @@ class Index
             } else {
                 $item = Document::findByPK($id);
                 if ($item->users->name == $this->app->user->name) {
-                    if (!$item->pulished){
+                    if (!$item->published){
                         $this->data->item = $item;
                     } else {
                         $this->error('403','Документ опубликован, редактирование невозможно');
                     }
 
-
                 } else {
                     $this->error('403','Вы не являетесь владельцем документа');
-
                 }
             }
         } else {
@@ -126,6 +124,34 @@ class Index
         $item->fill($this->app->request->post);
 
         $item->save();
+
+
+
+    }
+
+    public function actionDelete($id)
+    {
+        if ($this->app->user) {
+
+            if (null === $id || 'new' == $id) {
+                $this->data->item = new Document();
+            } else {
+                $item = Document::findByPK($id);
+                if ($item->users->name == $this->app->user->name) {
+                    if (!$item->published){
+                        $item->delete();
+                    } else {
+                        $this->error('403','Документ опубликован, удалить нельзя');
+                    }
+
+                } else {
+                    $this->error('403','Вы не являетесь владельцем документа');
+                }
+            }
+        } else {
+            $this->error('401','Вы не авторизованый пользователь');
+
+        }
 
 
     }
